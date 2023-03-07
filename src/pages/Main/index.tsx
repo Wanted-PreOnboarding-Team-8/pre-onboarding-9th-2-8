@@ -1,9 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { getProductsItem } from '@/api/getProductsItem';
-import { IProductsInterface } from './types';
+import { IProducts } from './types';
+import ProductItem from '@/components/main/ProductItem';
 
-const Main = () => {
-  const [products, setProducts] = useState<IProductsInterface[]>([]);
+const MainPage = () => {
+  const [products, setProducts] = useState<IProducts[]>([]);
 
   const getItems = useCallback(() => {
     getProductsItem().then((res) => setProducts(res.data));
@@ -15,18 +16,12 @@ const Main = () => {
   return (
     <div>
       <div style={{ display: 'flex' }}>
-        {products.map((product) => (
-          <div key={product.idx}>
-            <img src={product.mainImage} alt={product.name} />
-            <p>{product.idx}</p>
-            <p>{product.name}</p>
-            <p>{product.price}원</p>
-            <p>{product.spaceCategory}</p>
-          </div>
-        ))}
+        {products.map((product) => {
+          return <ProductItem key={product.idx} product={product} />;
+        })}
       </div>
     </div>
   );
 };
 
-export default Main;
+export default MainPage;
