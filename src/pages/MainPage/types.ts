@@ -8,3 +8,9 @@ export interface IProduct {
   maximumPurchases: number;
   registrationDate: string;
 }
+
+export interface IProductModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  product: IProduct;
+}
