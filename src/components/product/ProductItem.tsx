@@ -12,6 +12,7 @@ import {
   Button,
   Badge,
 } from '@chakra-ui/react';
+import ProductInfoModal from '../modal/ProductInfoModal';
 
 type Props = {
   product: IProduct;
@@ -30,20 +31,22 @@ const ProductItem = ({ product }: Props) => {
   };
 
   return (
-    <Card direction={{ base: 'column', sm: 'row' }}>
-      <Image src={product.mainImage} alt={product.name} />
-      <Stack>
-        <CardBody>
-          <Badge>{product.idx}</Badge>
-          <Badge>{product.spaceCategory}</Badge>
-          <Heading>{product.name}</Heading>
-          <Text>{product.price}</Text>
-          <CardFooter>
-            <Button onClick={addProductToCart}>Add to Cart</Button>
-          </CardFooter>
-        </CardBody>
-      </Stack>
-    </Card>
+    <ProductInfoModal product={product}>
+      <Card direction={{ base: 'column', sm: 'row' }}>
+        <Image src={product.mainImage} alt={product.name} />
+        <Stack>
+          <CardBody>
+            <Badge>{product.idx}</Badge>
+            <Badge>{product.spaceCategory}</Badge>
+            <Heading>{product.name}</Heading>
+            <Text>{product.price}</Text>
+            <CardFooter>
+              <Button onClick={addProductToCart}>Add to Cart</Button>
+            </CardFooter>
+          </CardBody>
+        </Stack>
+      </Card>
+    </ProductInfoModal>
   );
 };
 
