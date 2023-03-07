@@ -1,4 +1,5 @@
 import { IProduct } from '@/pages/MainPage/types';
+import { addProduct } from '@/store/modules/productReducer';
 import {
   Card,
   Image,
@@ -11,8 +12,11 @@ import {
   ButtonGroup,
   Button,
 } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
 
 const MainCard = ({ product }: { product: IProduct }) => {
+  const dispatch = useDispatch();
+
   return (
     <Card maxW="sm">
       <CardBody>
@@ -29,7 +33,11 @@ const MainCard = ({ product }: { product: IProduct }) => {
       <Divider />
       <CardFooter>
         <ButtonGroup spacing="2">
-          <Button variant="solid" colorScheme="blue">
+          <Button
+            variant="solid"
+            colorScheme="blue"
+            onClick={() => dispatch(addProduct(product))}
+          >
             예약하기
           </Button>
         </ButtonGroup>
