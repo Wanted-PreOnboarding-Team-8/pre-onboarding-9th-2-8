@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import Main from './pages/Main';
+import Main from './pages/MainPage/Main';
 
 const Router = () => {
   return (
