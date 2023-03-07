@@ -2,18 +2,22 @@ import { useRef } from 'react';
 import { IProducts } from '@/pages/Main/types';
 import { Button, Modal, useDisclosure } from '@chakra-ui/react';
 import ProductModal from './ProductModal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
 import { addProduct } from '@/app/reservationsSlice';
 
 const ProductItem = ({ product }: { product: IProducts }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const finalRef = useRef(null);
-
+  const reservations = useSelector(
+    (state: RootState) => state.reservations.reservProduct,
+  );
   const dispatch = useDispatch();
 
   const reservationsItemHandler = () => {
     dispatch(addProduct(product));
   };
+  console.log(reservations);
 
   return (
     <div>

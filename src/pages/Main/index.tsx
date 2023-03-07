@@ -13,6 +13,7 @@ const MainPage = () => {
   useEffect(() => {
     getItems();
   }, [getItems]);
+
   return (
     <div>
       <div style={{ display: 'flex' }}>
