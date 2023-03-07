@@ -1,24 +1,27 @@
-import { getMockDatas } from '@/api/mockData';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import MainCard from '@/components/main/MainCard';
-import { IProduct } from './types';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductsData } from '@/store/modules/apiReducer';
+import { AppDispatch, RootState } from '@/store';
 
 const Main = () => {
-  const [mockDatas, setMockDatas] = useState<IProduct[]>([]);
-
-  const LoadMockDatas = useCallback(() => {
-    getMockDatas().then((res) => setMockDatas(res.data));
-  }, []);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    LoadMockDatas();
-  }, [LoadMockDatas]);
+    dispatch(getProductsData());
+  }, [dispatch]);
+
+  const { productsList, isLoading, error } = useSelector(
+    (state: RootState) => state.api,
+  );
 
   return (
     <>
-      {mockDatas.map((product) => {
+      {productsList.map((product) => {
         return <MainCard key={product.idx} product={product} />;
       })}
+      {isLoading && <div>Loading...</div>}
+      {error && <div>{error}</div>}
     </>
   );
 };

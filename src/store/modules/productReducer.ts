@@ -28,3 +28,4 @@ const productsSlice = createSlice({
 
 export const { addProduct } = productsSlice.actions;
 export default productsSlice.reducer;
+
