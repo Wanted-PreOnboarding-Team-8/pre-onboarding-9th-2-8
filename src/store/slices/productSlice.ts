@@ -65,12 +65,14 @@ const productSlice = createSlice({
     });
     builder.addCase(getFilteredProductsPrice.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.error = null;
+      state.error =
+        action.payload.length === 0 ? '검색 결과가 없습니다.' : null;
       state.products = action.payload;
     });
     builder.addCase(getFilteredProductsPrice.rejected, (state) => {
       state.isLoading = false;
       state.error = '찾은 목록을 가져올 수 없습니다.';
+      state.products = [];
     });
     builder.addCase(getFilteredProductsSpaceCategory.pending, (state) => {
       state.isLoading = true;
@@ -80,13 +82,15 @@ const productSlice = createSlice({
       getFilteredProductsSpaceCategory.fulfilled,
       (state, action) => {
         state.isLoading = false;
-        state.error = null;
+        state.error =
+          action.payload.length === 0 ? '검색 결과가 없습니다.' : null;
         state.products = action.payload;
       },
     );
     builder.addCase(getFilteredProductsSpaceCategory.rejected, (state) => {
       state.isLoading = false;
       state.error = '찾은 목록을 가져올 수 없습니다.';
+      state.products = [];
     });
   },
 });
