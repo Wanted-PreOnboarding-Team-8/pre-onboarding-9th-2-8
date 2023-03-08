@@ -12,12 +12,12 @@ const initialState: IProductReducer = {
   error: null,
   products: [
     {
-      idx: '',
+      idx: -1,
       name: '',
       mainImage: '',
       description: '',
       spaceCategory: '',
-      price: '',
+      price: -1,
       maximumPurchases: '',
       registrationDate: '',
     },
