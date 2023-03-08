@@ -24,6 +24,17 @@ export const getFilteredProductsPrice = createAsyncThunk(
   },
 );
 
+export const getFilteredProductsSpaceCategory = createAsyncThunk(
+  'product/getFilteredProductsSpaceCategory',
+  async (spaceCategory: string) => {
+    const response = await productApi.getProducts();
+    const filteredProducts = response.filter(
+      (product: IProduct) => product.spaceCategory === spaceCategory,
+    );
+    return filteredProducts;
+  },
+);
+
 const initialState: IProductReducer = {
   isLoading: true,
   error: null,
@@ -58,6 +69,22 @@ const productSlice = createSlice({
       state.products = action.payload;
     });
     builder.addCase(getFilteredProductsPrice.rejected, (state) => {
+      state.isLoading = false;
+      state.error = '찾은 목록을 가져올 수 없습니다.';
+    });
+    builder.addCase(getFilteredProductsSpaceCategory.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(
+      getFilteredProductsSpaceCategory.fulfilled,
+      (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.products = action.payload;
+      },
+    );
+    builder.addCase(getFilteredProductsSpaceCategory.rejected, (state) => {
       state.isLoading = false;
       state.error = '찾은 목록을 가져올 수 없습니다.';
     });

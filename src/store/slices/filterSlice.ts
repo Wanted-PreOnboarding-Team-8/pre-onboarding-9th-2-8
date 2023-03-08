@@ -5,6 +5,7 @@ const filterSlice = createSlice({
   initialState: {
     minPrice: 0,
     maxPrice: 0,
+    spaceCategory: '',
   },
   reducers: {
     setMinPrice: (state, action) => {
@@ -13,9 +14,13 @@ const filterSlice = createSlice({
     setMaxPrice: (state, action) => {
       state.maxPrice = action.payload;
     },
+    setSpaceCategory: (state, action) => {
+      state.spaceCategory = action.payload;
+    },
   },
 });
 
-export const { setMinPrice, setMaxPrice } = filterSlice.actions;
+export const { setMinPrice, setMaxPrice, setSpaceCategory } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;

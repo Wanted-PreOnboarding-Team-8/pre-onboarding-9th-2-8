@@ -8,8 +8,15 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useAppDispatch } from '@/store';
-import { getFilteredProductsPrice } from '@/store/slices/productSlice';
-import { setMaxPrice, setMinPrice } from '@/store/slices/filterSlice';
+import {
+  getFilteredProductsPrice,
+  getFilteredProductsSpaceCategory,
+} from '@/store/slices/productSlice';
+import {
+  setMaxPrice,
+  setMinPrice,
+  setSpaceCategory,
+} from '@/store/slices/filterSlice';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
@@ -47,6 +54,11 @@ const Filter = () => {
     );
   };
 
+  const handleChangess = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setSpaceCategory(event.target.value));
+    dispatch(getFilteredProductsSpaceCategory(event.target.value));
+  };
+
   return (
     <>
       <RangeSlider
@@ -73,10 +85,12 @@ const Filter = () => {
         value={values[1]}
         onChange={(e) => handleChanges(e, 1)}
       />
-      <Select placeholder="Select option">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
+      <Select placeholder="Select option" onChange={handleChangess}>
+        <option value="서울">서울</option>
+        <option value="강원">강원</option>
+        <option value="부산">부산</option>
+        <option value="대구">대구</option>
+        <option value="제주">제주</option>
       </Select>
       <button onClick={handleClick}>클릭</button>
     </>
