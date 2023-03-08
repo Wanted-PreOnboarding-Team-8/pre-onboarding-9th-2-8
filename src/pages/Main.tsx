@@ -6,9 +6,9 @@ import ProductModal from '@/components/ProductModal';
 const Main = () => {
   return (
     <>
+      <Filter />
       <Center as="main" bg="tomato" w="100%">
         <HStack as="section" bg="tomato" w="50%">
-          <Filter />
           <ProductList />
         </HStack>
       </Center>
