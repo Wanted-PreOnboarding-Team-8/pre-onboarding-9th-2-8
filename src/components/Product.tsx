@@ -61,6 +61,8 @@ const Product = (productData: IProduct) => {
       <Stack>
         <CardBody>
           <Heading size="md">{productData.name}</Heading>
+          <Text py="2">id: {productData.idx}</Text>
+          <Text py="2">sub category: {productData.spaceCategory}</Text>
           <Text py="2">{productData.description}</Text>
         </CardBody>
         <CardFooter gap="5px">
