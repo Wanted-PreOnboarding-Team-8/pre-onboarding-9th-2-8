@@ -1,12 +1,33 @@
-import { VStack, VisuallyHidden, Heading } from '@chakra-ui/react';
+import {
+  Popover,
+  PopoverTrigger,
+  Button,
+  Portal,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverCloseButton,
+  PopoverBody,
+} from '@chakra-ui/react';
+import PriceOption from '@/components/filter/PriceOption';
 
 const Filter = () => {
   return (
-    <VStack as="section" bg="blue.100" w="25%" p={4}>
-      <VisuallyHidden>
-        <Heading>필터 옵션</Heading>
-      </VisuallyHidden>
-    </VStack>
+    <Popover>
+      <PopoverTrigger>
+        <Button>필터</Button>
+      </PopoverTrigger>
+      <Portal>
+        <PopoverContent w="400px">
+          <PopoverArrow />
+          <PopoverHeader>필터 옵션</PopoverHeader>
+          <PopoverCloseButton />
+          <PopoverBody>
+            <PriceOption />
+          </PopoverBody>
+        </PopoverContent>
+      </Portal>
+    </Popover>
   );
 };
 export default Filter;
