@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useAppDispatch } from '@/store';
 import {
+  getFilteredProductsAll,
   getFilteredProductsPrice,
   getFilteredProductsSpaceCategory,
 } from '@/store/slices/productSlice';
@@ -22,6 +23,7 @@ const Filter = () => {
   const dispatch = useAppDispatch();
 
   const [values, setValues] = useState<[number, number]>([1000, 30000]);
+  const [selectValue, setSelectValue] = useState('');
 
   const handleChange = (newValues: [number, number]) => {
     setValues(newValues);
@@ -55,8 +57,21 @@ const Filter = () => {
   };
 
   const handleChangess = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectValue(event.target.value);
     dispatch(setSpaceCategory(event.target.value));
     dispatch(getFilteredProductsSpaceCategory(event.target.value));
+  };
+
+  const allHandleClick = () => {
+    dispatch(setMinPrice(values[0]));
+    dispatch(setMaxPrice(values[1]));
+    dispatch(
+      getFilteredProductsAll({
+        minPrice: values[0], 
+        maxPrice: values[1],
+        spaceCategory: selectValue,
+      }),
+    );
   };
 
   return (
@@ -93,6 +108,7 @@ const Filter = () => {
         <option value="제주">제주</option>
       </Select>
       <button onClick={handleClick}>클릭</button>
+      <button onClick={allHandleClick}>전체 전송</button>
     </>
   );
 };

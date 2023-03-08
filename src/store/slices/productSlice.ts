@@ -7,6 +7,10 @@ interface IFilterState {
   maxPrice: number;
 }
 
+interface IFilterStateAll extends IFilterState {
+  spaceCategory: string;
+}
+
 export const getProducts = createAsyncThunk<IProduct[]>(
   'product/getProducts',
   productApi.getProducts,
@@ -31,6 +35,22 @@ export const getFilteredProductsSpaceCategory = createAsyncThunk(
     const filteredProducts = response.filter(
       (product: IProduct) => product.spaceCategory === spaceCategory,
     );
+    return filteredProducts;
+  },
+);
+
+export const getFilteredProductsAll = createAsyncThunk(
+  'product/getFilteredProductsAll',
+  async ({ minPrice, maxPrice, spaceCategory }: IFilterStateAll) => {
+    const response = await productApi.getProducts();
+    const filteredProducts = response.filter((product: IProduct) => {
+      const isSpaceCategoryMatched =
+        !spaceCategory || product.spaceCategory === spaceCategory;
+      const isPriceMatched =
+        (!minPrice || Number(product.price) >= minPrice) &&
+        (!maxPrice || Number(product.price) <= maxPrice);
+      return isSpaceCategoryMatched && isPriceMatched;
+    });
     return filteredProducts;
   },
 );
@@ -88,6 +108,24 @@ const productSlice = createSlice({
       },
     );
     builder.addCase(getFilteredProductsSpaceCategory.rejected, (state) => {
+      state.isLoading = false;
+      state.error = '찾은 목록을 가져올 수 없습니다.';
+      state.products = [];
+    });
+    builder.addCase(getFilteredProductsAll.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(
+      getFilteredProductsAll.fulfilled,
+      (state, action) => {
+        state.isLoading = false;
+        state.error =
+          action.payload.length === 0 ? '검색 결과가 없습니다.' : null;
+        state.products = action.payload;
+      },
+    );
+    builder.addCase(getFilteredProductsAll.rejected, (state) => {
       state.isLoading = false;
       state.error = '찾은 목록을 가져올 수 없습니다.';
       state.products = [];
