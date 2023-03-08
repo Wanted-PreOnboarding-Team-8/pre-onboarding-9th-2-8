@@ -1,5 +1,9 @@
 import productApi from '@/api/product';
-import { IProduct, IProductReducer } from '@/interface/product';
+import {
+  IFilterProducts,
+  IProduct,
+  IProductReducer,
+} from '@/interface/product';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const getProducts = createAsyncThunk<IProduct[]>(
@@ -7,21 +11,22 @@ export const getProducts = createAsyncThunk<IProduct[]>(
   productApi.getProducts,
 );
 
+export const filterProducts = createAsyncThunk(
+  'product/filterProducts',
+  async ({ minPrice, maxPrice }: IFilterProducts) => {
+    const response = await productApi.getProducts();
+    const filterProduct = response.filter(
+      (product: IProduct) =>
+        product.price > minPrice && product.price < maxPrice,
+    );
+    return filterProduct;
+  },
+);
+
 const initialState: IProductReducer = {
   isLoading: true,
   error: null,
-  products: [
-    {
-      idx: '',
-      name: '',
-      mainImage: '',
-      description: '',
-      spaceCategory: '',
-      price: '',
-      maximumPurchases: '',
-      registrationDate: '',
-    },
-  ],
+  products: [],
 };
 const productSlice = createSlice({
   name: 'products',
@@ -38,6 +43,19 @@ const productSlice = createSlice({
       state.products = action.payload;
     });
     builder.addCase(getProducts.rejected, (state) => {
+      state.isLoading = false;
+      state.error = '상품 목록을 가져올 수 없습니다.';
+    });
+    builder.addCase(filterProducts.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(filterProducts.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.products = action.payload;
+    });
+    builder.addCase(filterProducts.rejected, (state) => {
       state.isLoading = false;
       state.error = '상품 목록을 가져올 수 없습니다.';
     });

@@ -1,33 +1,55 @@
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { Checkbox, Stack, Text } from '@chakra-ui/react';
-const FilterSpaceCategory = () => {
-  const [checkedItems, setCheckedItems] = useState([false, false]);
+import { IProduct } from '@/interface/product';
 
+const spaceCategory = [
+  { id: 0, category: '강원' },
+  { id: 1, category: '대구' },
+  { id: 2, category: '부산' },
+  { id: 3, category: '서울' },
+  { id: 4, category: '제주' },
+];
+
+const FilterSpaceCategory = ({ products }: { products: IProduct[] }) => {
+  const [checkedItems, setCheckedItems] = useState(
+    Array.from({ length: spaceCategory?.length }, () => false),
+  );
   const allChecked = checkedItems.every(Boolean);
-  const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
+
+  const checkedHandler = (
+    e: ChangeEvent<HTMLInputElement>,
+    space: { id: number; category: string },
+  ) => {
+    checkedItems.splice(space.id, 1, e.target.checked);
+    setCheckedItems([...checkedItems]);
+  };
+
   return (
     <>
       <Text>장소</Text>
       <Checkbox
         isChecked={allChecked}
-        isIndeterminate={isIndeterminate}
-        onChange={(e) => setCheckedItems([e.target.checked, e.target.checked])}
+        onChange={(e) =>
+          setCheckedItems(
+            Array.from(
+              { length: spaceCategory?.length },
+              () => e.target.checked,
+            ),
+          )
+        }
       >
         전체 선택
       </Checkbox>
       <Stack pl={6} mt={1} spacing={1}>
-        <Checkbox
-          isChecked={checkedItems[0]}
-          onChange={(e) => setCheckedItems([e.target.checked, checkedItems[1]])}
-        >
-          Child Checkbox 1
-        </Checkbox>
-        <Checkbox
-          isChecked={checkedItems[1]}
-          onChange={(e) => setCheckedItems([checkedItems[0], e.target.checked])}
-        >
-          Child Checkbox 2
-        </Checkbox>
+        {spaceCategory.map((space) => (
+          <Checkbox
+            key={space.id}
+            isChecked={checkedItems[space.id]}
+            onChange={(e) => checkedHandler(e, space)}
+          >
+            {space.category}
+          </Checkbox>
+        ))}
       </Stack>
     </>
   );
