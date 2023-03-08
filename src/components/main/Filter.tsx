@@ -1,11 +1,17 @@
-import { VStack, VisuallyHidden, Heading } from '@chakra-ui/react';
+import { VStack, VisuallyHidden, Heading, Stack } from '@chakra-ui/react';
+import FilterPrice from './FilterPrice';
+import FilterSpaceCategory from './FilterSpaceCategory';
 
 const Filter = () => {
   return (
-    <VStack as="section" bg="blue.100" w="25%" p={4}>
+    <VStack as="section" bg="blue.100" w="30%" p={4}>
       <VisuallyHidden>
         <Heading>필터 옵션</Heading>
       </VisuallyHidden>
+      <Stack>
+        <FilterSpaceCategory />
+        <FilterPrice />
+      </Stack>
     </VStack>
   );
 };
