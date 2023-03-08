@@ -10,6 +10,7 @@ import {
   PopoverBody,
 } from '@chakra-ui/react';
 import PriceOption from '@/components/filter/PriceOption';
+import SpaceCategoryOption from './filter/SpaceCategoryOption';
 
 const Filter = () => {
   return (
@@ -24,6 +25,7 @@ const Filter = () => {
           <PopoverCloseButton />
           <PopoverBody>
             <PriceOption />
+            <SpaceCategoryOption />
           </PopoverBody>
         </PopoverContent>
       </Portal>
