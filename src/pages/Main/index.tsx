@@ -2,6 +2,8 @@ import { getAllTravelProduct } from '@/api/travelProduct';
 import { useState, useEffect } from 'react';
 import { ITravelProduct } from '@/interface/global';
 
+import TravelProductList from '@/components/products/TravelProductList';
+
 const Main = () => {
   const [products, setProducts] = useState<ITravelProduct[]>([]);
 
@@ -11,13 +13,7 @@ const Main = () => {
 
   return (
     <>
-      {products.map((ele: ITravelProduct) => {
-        return (
-          <div key={ele.idx}>
-            {ele.name} :==:==: {ele.description}
-          </div>
-        );
-      })}
+      <TravelProductList products={products} />
     </>
   );
 };
