@@ -1,13 +1,15 @@
-import Router from './Router';
+import Router from '@/Router';
 import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import { store } from '@/store/index';
 
 const App = () => {
   return (
-    <div className="App">
+    <Provider store={store}>
       <ChakraProvider>
         <Router />
       </ChakraProvider>
-    </div>
+    </Provider>
   );
 };
 
