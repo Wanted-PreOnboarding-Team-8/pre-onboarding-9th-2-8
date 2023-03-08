@@ -4,11 +4,13 @@ import Product from '@/components/Product';
 import { IProduct } from '@/interface/product';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import Filter from './Filter';
+import Loading from './Loading';
+import { Text } from '@chakra-ui/react';
 
 const ProductList = () => {
   const dispatch = useAppDispatch();
   const {
-    products: { products },
+    products: { products, isLoading, error },
   } = useAppSelector((state: RootState) => state);
 
   useEffect(() => {
@@ -18,9 +20,14 @@ const ProductList = () => {
   return (
     <>
       <Filter />
-      {products.map((product: IProduct) => (
-        <Product key={product.idx} {...product} />
-      ))}
+      {isLoading ? (
+        <Loading text="데이터 로딩중..." />
+      ) : (
+        products.map((product: IProduct) => (
+          <Product key={product.idx} {...product} />
+        ))
+      )}
+      {error && <Text>{error}</Text>}
     </>
   );
 };
