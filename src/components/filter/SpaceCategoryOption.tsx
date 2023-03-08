@@ -37,24 +37,28 @@ const SpaceCategoryOption = () => {
 
   const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const deduplicated = deduplication([...selected, e.target.value]);
+    setSelected(deduplicated);
+
     dispatch(
       addFilter({
         type: 'space',
         value: deduplicated,
       }),
     );
-    setSelected(deduplicated);
   };
 
   const onDelete = (location: string) => {
     const removedList = selected.filter((item) => item !== location);
+    setSelected(removedList);
+
+    if (!checked) return;
+
     dispatch(
       addFilter({
         type: 'space',
         value: removedList,
       }),
     );
-    setSelected(removedList);
   };
 
   const onChangeFilter = () => {
