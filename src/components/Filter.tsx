@@ -8,7 +8,7 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useAppDispatch } from '@/store';
-import { getFilteredProducts } from '@/store/slices/productSlice';
+import { getFilteredProductsPrice } from '@/store/slices/productSlice';
 import { setMaxPrice, setMinPrice } from '@/store/slices/filterSlice';
 
 const Filter = () => {
@@ -42,7 +42,9 @@ const Filter = () => {
   const handleClick = () => {
     dispatch(setMinPrice(values[0]));
     dispatch(setMaxPrice(values[1]));
-    dispatch(getFilteredProducts({ minPrice: values[0], maxPrice: values[1] }));
+    dispatch(
+      getFilteredProductsPrice({ minPrice: values[0], maxPrice: values[1] }),
+    );
   };
 
   return (

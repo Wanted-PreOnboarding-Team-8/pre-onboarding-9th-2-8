@@ -12,8 +12,8 @@ export const getProducts = createAsyncThunk<IProduct[]>(
   productApi.getProducts,
 );
 
-export const getFilteredProducts = createAsyncThunk(
-  'product/getFilteredProducts',
+export const getFilteredProductsPrice = createAsyncThunk(
+  'product/getFilteredProductsPrice',
   async ({ minPrice, maxPrice }: IFilterState) => {
     const response = await productApi.getProducts();
     const filteredProducts = response.filter(
@@ -48,16 +48,16 @@ const productSlice = createSlice({
       state.isLoading = false;
       state.error = '상품 목록을 가져올 수 없습니다.';
     });
-    builder.addCase(getFilteredProducts.pending, (state) => {
+    builder.addCase(getFilteredProductsPrice.pending, (state) => {
       state.isLoading = true;
       state.error = null;
     });
-    builder.addCase(getFilteredProducts.fulfilled, (state, action) => {
+    builder.addCase(getFilteredProductsPrice.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.products = action.payload;
     });
-    builder.addCase(getFilteredProducts.rejected, (state) => {
+    builder.addCase(getFilteredProductsPrice.rejected, (state) => {
       state.isLoading = false;
       state.error = '찾은 목록을 가져올 수 없습니다.';
     });
