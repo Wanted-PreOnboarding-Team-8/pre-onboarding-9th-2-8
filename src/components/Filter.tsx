@@ -1,4 +1,5 @@
-import { useAppSelector } from '@/store';
+import { useAppSelector, useAppDispatch } from '@/store';
+import { filterProducts } from '@/store/slices/productSlice';
 import {
   VStack,
   Heading,
@@ -14,29 +15,47 @@ import {
 import { useEffect, useState } from 'react';
 
 const Filter = () => {
-  const {
-    products: { products },
-  } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const { products, filter } = useAppSelector((state) => state.products);
   const [range, setRange] = useState<RangeType>({ min: -1, max: -1 });
   const [priceRange, setPriceRange] = useState<RangeType>({ min: -1, max: -1 });
   const [spaceList, setSpaceList] = useState<string[]>([]);
+  const [checkedSpaceList, setCheckedSpaceList] = useState<string[]>([]);
 
   useEffect(() => {
-    const set = new Set<string>();
-    let min = products[0].price;
-    let max = products[0].price;
-    products.forEach((product) => {
-      set.add(product.spaceCategory);
-      if (product.price > max) max = product.price;
-      if (product.price < min) min = product.price;
-    });
-    setSpaceList(Array.from(set));
-    setRange({ min, max });
-    setPriceRange({ min, max });
-  }, [products]);
+    if (products.length && range.min === -1) {
+      setSpaceList(filter.spaceList);
+      setRange(filter.priceRange);
+      setPriceRange(filter.priceRange);
+    }
+  }, [products.length]);
 
-  const handleChangeSlider = (val: [number, number]) => {
+  useEffect(() => {
+    if (priceRange.min === -1) {
+      return;
+    }
+    dispatch(filterProducts({ priceRange, checkedSpaceList }));
+  }, [
+    dispatch,
+    checkedSpaceList,
+    checkedSpaceList.length,
+    priceRange,
+    priceRange.min,
+    priceRange.max,
+  ]);
+
+  const onChangeRangeSlider = (val: [number, number]) => {
     setPriceRange({ min: val[0], max: val[1] });
+  };
+
+  const onCheckSpace = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.currentTarget.checked) {
+      setCheckedSpaceList((prev) => [...prev, e.currentTarget.value]);
+    } else {
+      setCheckedSpaceList((prev) =>
+        prev.filter((p) => p !== e.currentTarget.value),
+      );
+    }
   };
 
   return (
@@ -50,7 +69,7 @@ const Filter = () => {
           min={range.min}
           max={range.max}
           step={1000}
-          onChange={handleChangeSlider}
+          onChange={onChangeRangeSlider}
         >
           <RangeSliderTrack bg="red.100">
             <RangeSliderFilledTrack bg="tomato" />
@@ -63,7 +82,7 @@ const Filter = () => {
       <CheckboxGroup>
         <Stack>
           {spaceList.map((space, i) => (
-            <Checkbox key={i} value={space}>
+            <Checkbox key={i} value={space} onChange={onCheckSpace}>
               {space}
             </Checkbox>
           ))}

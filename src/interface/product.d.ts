@@ -13,4 +13,5 @@ export interface IProductReducer {
   isLoading: boolean;
   error: string | null;
   products: IProduct[];
+  filter: { priceRange: RangeType; spaceList: string[] };
 }

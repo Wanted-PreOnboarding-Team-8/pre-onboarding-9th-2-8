@@ -64,6 +64,7 @@ const Product = (productData: IProduct) => {
           <Text py="2">{productData.description}</Text>
           <Text py="2">{productData.idx}</Text>
           <Text py="2">{productData.spaceCategory}</Text>
+          <Text py="2">{productData.price}</Text>
         </CardBody>
         <CardFooter gap="5px">
           <Button
