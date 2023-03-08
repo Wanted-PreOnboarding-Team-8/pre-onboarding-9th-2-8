@@ -1,17 +1,26 @@
-import { HStack, Center } from '@chakra-ui/react';
-import Filter from '@/components/Filter';
+import { Center, Box, Tabs, TabList, Tab, Text } from '@chakra-ui/react';
 import ProductList from '@/components/ProductList';
 import ProductModal from '@/components/ProductModal';
 
 const Main = () => {
   return (
     <>
-      <Filter />
-      <Center as="main" bg="tomato" w="100%">
-        <HStack as="section" bg="tomato" w="50%">
+      <Center>
+        <Box maxWidth="container.sm" mx="auto" px={4}>
+          <Tabs>
+            <TabList justifyContent="center">
+              <Tab>
+                <Text fontSize="4xl">여행 상품</Text>
+              </Tab>
+              <Tab>
+                <Text fontSize="4xl">장바 구니</Text>
+              </Tab>
+            </TabList>
+          </Tabs>
           <ProductList />
-        </HStack>
+        </Box>
       </Center>
+
       <ProductModal />
     </>
   );

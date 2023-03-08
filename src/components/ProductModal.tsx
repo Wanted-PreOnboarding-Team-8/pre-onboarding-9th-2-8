@@ -24,15 +24,15 @@ const ProductModal = () => {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={() => dispatch(onClose())}>
+      <Modal isOpen={isOpen} onClose={() => dispatch(onClose())} size='sm'>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{modalData.name}</ModalHeader>
+          <ModalHeader fontSize='2xl'>{modalData.name}</ModalHeader>
           <ModalBody>
             <Center>
               <Image
                 objectFit="cover"
-                maxW={{ base: '100%', sm: '200px' }}
+                maxW={{ base: '100%', sm: '300px' }}
                 src={modalData.mainImage}
                 alt={modalData.name}
               />
@@ -50,7 +50,7 @@ const ProductModal = () => {
           </ModalBody>
           <ModalFooter justifyContent="space-between">
             <Text>{modalData.registrationDate} 작성</Text>
-            <Text>등록번호 : {modalData.idx}</Text>
+            <Badge>등록번호 : {modalData.idx}</Badge>
             <Button
               colorScheme="blue"
               mr={3}

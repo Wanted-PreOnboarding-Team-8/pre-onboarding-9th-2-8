@@ -3,10 +3,9 @@ import {
   Card,
   CardBody,
   CardFooter,
-  Center,
+  Badge,
   Heading,
   Image,
-  Spinner,
   Stack,
   Text,
   useToast,
@@ -46,37 +45,39 @@ const Product = (productData: IProduct) => {
   };
 
   return (
-    <Card direction={{ base: 'column', sm: 'row' }} w="100%" variant="outline">
+    <Card
+      direction={{ base: 'column', sm: 'row' }}
+      variant="outline"
+      m={3}
+      onClick={() => dispatch(onOpen(productData))}
+    >
       <Image
         objectFit="cover"
         maxW={{ base: '100%', sm: '200px' }}
         src={productData.mainImage}
         alt={productData.name}
-        fallback={
-          <Center w="40%" h="100%">
-            <Spinner />
-          </Center>
-        }
       />
-      <Stack>
+
+      <Stack w="100%">
         <CardBody>
-          <Heading size="md">{productData.name}</Heading>
+          <Heading size="md">
+            {productData.name} <Badge>{productData.idx}</Badge>
+          </Heading>
+
           <Text py="2">{productData.description}</Text>
+
+          <Text color="blue.600" fontSize="2xl">
+            {`₩${productData.price.toLocaleString()}`}
+          </Text>
         </CardBody>
-        <CardFooter gap="5px">
+
+        <CardFooter justify="flex-end">
           <Button
             variant="solid"
             colorScheme="blue"
             onClick={() => handleReservation(productData)}
           >
             예 약
-          </Button>
-          <Button
-            variant="solid"
-            colorScheme="blue"
-            onClick={() => dispatch(onOpen(productData))}
-          >
-            더 보 기
           </Button>
         </CardFooter>
       </Stack>
