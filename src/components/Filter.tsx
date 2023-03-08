@@ -9,8 +9,8 @@ import {
   RangeSliderThumb,
   Text,
   CheckboxGroup,
-  Stack,
   Checkbox,
+  HStack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
@@ -52,14 +52,15 @@ const Filter = () => {
     if (e.currentTarget.checked) {
       setCheckedSpaceList((prev) => [...prev, e.currentTarget.value]);
     } else {
-      setCheckedSpaceList((prev) =>
-        prev.filter((p) => p !== e.currentTarget.value),
+      const filtered = checkedSpaceList.filter(
+        (p) => p !== e.currentTarget.value,
       );
+      setCheckedSpaceList(filtered);
     }
   };
 
   return (
-    <VStack as="section" bg="blue.100" p={4}>
+    <VStack as="section" p={4}>
       <Heading>필터 옵션</Heading>
       <Text fontWeight="bold">상품 가격</Text>
       <Text>{`${priceRange.min}~${priceRange.max}`}</Text>
@@ -79,14 +80,14 @@ const Filter = () => {
         </RangeSlider>
       )}
       <Text fontWeight="bold">공간</Text>
-      <CheckboxGroup>
-        <Stack>
+      <CheckboxGroup colorScheme="green">
+        <HStack>
           {spaceList.map((space, i) => (
             <Checkbox key={i} value={space} onChange={onCheckSpace}>
               {space}
             </Checkbox>
           ))}
-        </Stack>
+        </HStack>
       </CheckboxGroup>
     </VStack>
   );

@@ -6,8 +6,8 @@ import ProductModal from '@/components/ProductModal';
 const Main = () => {
   return (
     <>
-      <Center as="main" bg="tomato" w="100%">
-        <Box as="section" bg="tomato" w="50%">
+      <Center as="main" w="100%">
+        <Box as="section" w="50%">
           <Filter />
           <ProductList />
         </Box>
