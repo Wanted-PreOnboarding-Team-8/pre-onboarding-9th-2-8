@@ -10,6 +10,7 @@ import {
   Stack,
   Box,
   Text,
+  Checkbox,
 } from '@chakra-ui/react';
 import { useAppDispatch } from '@/store';
 import {
@@ -27,7 +28,8 @@ const Filter = () => {
   const dispatch = useAppDispatch();
 
   const [values, setValues] = useState<[number, number]>([5000, 15000]);
-  const [selectValue, setSelectValue] = useState('');
+  const [selectValue, setSelectValue] = useState<string>('');
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const handleChange = (newValues: [number, number]) => {
     setValues(newValues);
@@ -55,7 +57,10 @@ const Filter = () => {
   const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectValue(event.target.value);
     dispatch(setSpaceCategory(event.target.value));
-    dispatch(getFilteredProductsSpaceCategory(event.target.value));
+  };
+
+  const handleClickSelect = () => {
+    dispatch(getFilteredProductsSpaceCategory(selectValue));
   };
 
   const handleClick = () => {
@@ -78,6 +83,18 @@ const Filter = () => {
     );
   };
 
+  const handleSearch = () => {
+    if (!isChecked && selectValue === '') {
+      alert('지역이나 금액을 설정 해주세요');
+    } else if (!isChecked && selectValue !== '') {
+      handleClickSelect();
+    } else if (isChecked && selectValue === '') {
+      handleClick();
+    } else {
+      allHandleClick();
+    }
+  };
+
   return (
     <>
       <RangeSlider
@@ -96,11 +113,13 @@ const Filter = () => {
       </RangeSlider>
 
       <Stack direction="row" justify="center">
+        <Checkbox onChange={(e) => setIsChecked(e.target.checked)}></Checkbox>
         <Box w="20%">
           <Input
             type="text"
             value={values[0]}
             onChange={(e) => handleChanges(e, 0)}
+            isDisabled={!isChecked}
           />
         </Box>
         <Text fontSize="3xl">~</Text>
@@ -109,28 +128,20 @@ const Filter = () => {
             type="text"
             value={values[1]}
             onChange={(e) => handleChanges(e, 1)}
-            htmlSize={4}
+            isDisabled={!isChecked}
           />
         </Box>
-      </Stack>
-      <Stack direction="row" justify="center">
-        <Select
-          placeholder="Select option"
-          onChange={handleChangeSelect}
-          w="30%"
-        >
+        <Select placeholder="전체지역" onChange={handleChangeSelect} w="20%">
           <option value="서울">서울</option>
           <option value="강원">강원</option>
           <option value="부산">부산</option>
           <option value="대구">대구</option>
           <option value="제주">제주</option>
         </Select>
-      </Stack>
 
-      <Stack direction="row" justify="center" m={2}>
-        <Button onClick={handleClick}>금액검색하기</Button>
-        <Button onClick={allHandleClick}>전체검색하기</Button>
+        <Button onClick={handleSearch}>검색</Button>
       </Stack>
+      <Stack direction="row" justify="center" m={2}></Stack>
     </>
   );
 };
