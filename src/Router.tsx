@@ -1,6 +1,6 @@
-import { Spinner } from '@chakra-ui/react';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Loading from './components/Loading';
 
 const Main = lazy(() => import('@/pages/Main'));
 const Reservations = lazy(() => import('@/pages/Reservations'));
@@ -10,13 +10,7 @@ const Router = () => {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Suspense
         fallback={
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="blue.500"
-            size="xl"
-          />
+          <Loading text='페이지를 불러오는 중...'/>
         }
       >
         <Routes>
