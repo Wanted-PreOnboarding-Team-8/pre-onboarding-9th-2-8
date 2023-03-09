@@ -9,6 +9,7 @@ import {
   VStack,
   IconButton,
 } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 import { IProduct } from '@/interface/product';
 
 const ReservationsList = (cartProduct: IProduct) => {

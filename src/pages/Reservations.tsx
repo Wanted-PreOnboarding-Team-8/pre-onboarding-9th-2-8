@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardBody,
+  CardFooter,
   CardHeader,
   Center,
   Heading,
@@ -35,6 +36,9 @@ const Reservations = () => {
             ))}
           </Stack>
         </CardBody>
+        <CardFooter gap="5px">
+          <Heading size="md">총합</Heading>
+        </CardFooter>
       </Card>
     </Center>
   );
