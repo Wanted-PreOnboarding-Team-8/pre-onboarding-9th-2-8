@@ -3,7 +3,6 @@ import {
   Card,
   CardBody,
   CardFooter,
-  Center,
   Heading,
   Image,
   Spinner,
@@ -53,34 +52,32 @@ const Product = (productData: IProduct) => {
         maxW={{ base: '100%', sm: '200px' }}
         src={productData.mainImage}
         alt={productData.name}
-        fallback={
-          <Center w="40%" h="100%">
-            <Spinner />
-          </Center>
-        }
+        fallback={<Spinner />}
       />
-      <Stack>
+      <Stack w="100%">
         <CardBody>
-          <Heading size="md">{productData.name}</Heading>
+          <Heading fontSize="2xl">{productData.name}</Heading>
           <Stack direction="row">
-            <Badge colorScheme="green">
-              {productData.price.toLocaleString()} 원
-            </Badge>
-            <Badge colorScheme="purple">{productData.spaceCategory}</Badge>
+            <Text color="blue.600" fontSize="xl">
+              {productData.price.toLocaleString()}원
+            </Text>
           </Stack>
           <Text py="2">{productData.description}</Text>
-          <Text py="2">등록번호 : {productData.idx}</Text>
+          <Stack direction="row">
+            <Badge colorScheme="purple">{productData.spaceCategory}</Badge>
+            <Badge>등록번호 : {productData.idx}</Badge>
+          </Stack>
         </CardBody>
-        <CardFooter gap="5px">
+        <CardFooter gap="5px" justify="flex-end">
           <Button
-            variant="solid"
-            colorScheme="blue"
+            variant='outline'
+            colorScheme="green"
             onClick={() => handleReservation(productData)}
           >
             예 약
           </Button>
           <Button
-            variant="solid"
+            variant='outline'
             colorScheme="blue"
             onClick={() => dispatch(onOpen(productData))}
           >
