@@ -1,5 +1,6 @@
 import { VStack, VisuallyHidden, Heading, Box } from '@chakra-ui/react';
 import PriceFilter from './PriceFilter';
+import LocationFilter from './LocationFilter';
 
 const Filter = () => {
   return (
@@ -7,7 +8,12 @@ const Filter = () => {
       <VisuallyHidden>
         <Heading>필터 옵션</Heading>
       </VisuallyHidden>
-      <PriceFilter />
+      <Box w="800px">
+        <PriceFilter />
+      </Box>
+      <Box mt="100px">
+        <LocationFilter />
+      </Box>
     </VStack>
   );
 };

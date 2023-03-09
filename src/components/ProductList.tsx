@@ -11,6 +11,7 @@ const ProductList = () => {
     products: { products },
     filter: {
       byPrice: { minPrice, maxPrice },
+      byLocation,
     },
   } = useAppSelector((state: RootState) => state);
 
@@ -18,8 +19,15 @@ const ProductList = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  const filtering = (product: IProduct) =>
-    Number(product.price) >= minPrice && Number(product.price) <= maxPrice;
+  const filtering = (product: IProduct) => {
+    if (
+      Number(product.price) >= minPrice &&
+      Number(product.price) <= maxPrice
+    ) {
+      if (byLocation === 'all') return true;
+      else if (byLocation === product.spaceCategory) return true;
+    }
+  };
 
   return (
     <VStack as="section" bg="blue.100" w="75%" minW="500px" p={4}>

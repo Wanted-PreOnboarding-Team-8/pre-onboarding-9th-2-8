@@ -8,7 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store';
 import { setPriceRange } from '@/store/slices/filterSlice';
 
-const MAX_PRICE = 30_000;
+const MAX_PRICE = 100_000;
 const STEP = 1_000;
 
 const PriceFilter = () => {
