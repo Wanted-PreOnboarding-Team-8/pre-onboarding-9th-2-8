@@ -8,7 +8,7 @@ const ReservationsList = () => {
     cart: { carts },
   } = useAppSelector((state) => state);
 
-  const total = carts.reduce((acc, curr) => acc + curr.price, 0);
+  const total = carts.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
 
   return (
     <>

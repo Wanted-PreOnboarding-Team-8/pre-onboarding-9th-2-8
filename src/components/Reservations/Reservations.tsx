@@ -38,6 +38,8 @@ const Reservations = (productData: IProduct) => {
     dispatch(removeFromCart({ idx: productData.idx }));
   };
 
+  const total = productData.price * productData.quantity;
+
   return (
     <Card direction={{ base: 'column', sm: 'row' }} w="100%" variant="outline">
       <Image
@@ -72,7 +74,7 @@ const Reservations = (productData: IProduct) => {
               +
             </Button>
             <Text color="blue.600" fontSize="2xl">
-              {productData.price.toLocaleString()}원
+              {total.toLocaleString()}원
             </Text>
           </Stack>
           <Badge colorScheme="red">
