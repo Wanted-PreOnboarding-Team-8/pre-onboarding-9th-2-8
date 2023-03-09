@@ -42,7 +42,7 @@ const CartItem = ({ product }: Props) => {
 
   const onModifyCartItem = (n: number) => {
     const quantity = product.quantity + n;
-    if (quantity < 0) {
+    if (quantity < 1) {
       return;
     } else if (quantity > product.maximumPurchases) {
       toast({
