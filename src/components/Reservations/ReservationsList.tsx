@@ -13,7 +13,7 @@ const ReservationsList = () => {
   return (
     <>
       <Stack>
-        <Heading size="xl" as="h4">
+        <Heading size="xl" as="h4" mt={4}>
           전체 {carts.length}개
         </Heading>
         <VStack as="section" w="100%" minW="500px" p={4}>
