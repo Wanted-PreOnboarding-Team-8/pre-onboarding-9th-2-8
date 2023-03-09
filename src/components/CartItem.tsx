@@ -10,11 +10,13 @@ import {
   Text,
   CardFooter,
   Button,
+  Toast,
 } from '@chakra-ui/react';
 import React from 'react';
 import { IProduct } from '@/interface/product';
 import { useAppDispatch } from '@/store';
 import { onOpen } from '@/store/slices/modalSlice';
+import { deleteCartItem } from '@/store/slices/cartSlice';
 
 type Props = {
   product: IProduct;
@@ -22,6 +24,17 @@ type Props = {
 
 const CartItem = ({ product }: Props) => {
   const dispatch = useAppDispatch();
+
+  const onDeleteCartItem = () => {
+    Toast({
+      title: `장바구니 아이템 삭제`,
+      description: `상품이 삭제되었습니다.`,
+      position: 'top-right',
+      status: 'success',
+      isClosable: true,
+    });
+    dispatch(onOpen(product));
+  };
   return (
     <Card direction={{ base: 'column', sm: 'row' }} w="100%" variant="outline">
       <Image
@@ -52,16 +65,12 @@ const CartItem = ({ product }: Props) => {
             variant="solid"
             colorScheme="blue"
             onClick={() => {
-              alert('준비중');
+              dispatch(deleteCartItem(product.idx));
             }}
           >
             삭제
           </Button>
-          <Button
-            variant="solid"
-            colorScheme="blue"
-            onClick={() => dispatch(onOpen(product))}
-          >
+          <Button variant="solid" colorScheme="blue" onClick={onDeleteCartItem}>
             더 보 기
           </Button>
         </CardFooter>

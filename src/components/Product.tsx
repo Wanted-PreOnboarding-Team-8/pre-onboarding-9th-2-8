@@ -16,6 +16,7 @@ import { IProduct } from '@/interface/product';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { onOpen } from '@/store/slices/modalSlice';
 import { addToCart } from '@/store/slices/cartSlice';
+import { CartType } from '@/interface/cart';
 
 const Product = (productData: IProduct) => {
   const dispatch = useAppDispatch();
@@ -23,8 +24,11 @@ const Product = (productData: IProduct) => {
   const toast = useToast();
 
   const handleReservation = (product: IProduct) => {
-    const productLength =
-      cart.filter((item: IProduct) => item.idx === product.idx).length + 1;
+    const filteredCart = cart.filter(
+      (item: CartType) => item.idx === product.idx,
+    );
+
+    const productLength = filteredCart.length ? filteredCart[0].count + 1 : 1;
 
     if (productLength <= Number(product.maximumPurchases)) {
       dispatch(addToCart(product));
