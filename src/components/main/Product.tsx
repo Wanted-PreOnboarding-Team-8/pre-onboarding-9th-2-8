@@ -23,14 +23,10 @@ const Product = (productData: IProduct) => {
   const toast = useToast();
 
   const handleReservation = (product: IProduct) => {
-    const findCartId = cart.map((item) => item.idx);
     const productLength =
       cart.filter((item: IProduct) => item.idx === product.idx).length + 1;
 
-    if (
-      productLength > 1 &&
-      findCartId.findIndex((element) => element === product.idx)
-    ) {
+    if (productLength > 1) {
       toast({
         title: `이미 담긴 상품입니다.`,
         description: `동일 상품을 여러 번 담을 수 없습니다.`,
