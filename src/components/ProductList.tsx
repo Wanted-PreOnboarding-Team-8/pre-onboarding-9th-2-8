@@ -19,7 +19,7 @@ import {
 } from '@/lib/utils/productsHelpers';
 import SpaceTag from './SpaceTag';
 
-const ProductList = (props: IProductListProps) => {
+const ProductList = ({ filters }: IProductListProps) => {
   const dispatch = useAppDispatch();
   const {
     products: { products },
@@ -35,35 +35,44 @@ const ProductList = (props: IProductListProps) => {
   }, [dispatch]);
 
   useEffect(() => {
-    setCurrentValues([0, getMaxPrice(products)]);
-    setSpaceHashMap(generateBoolMappedObj(products, true));
-  }, [products]);
+    filters.includes('price') && setCurrentValues([0, getMaxPrice(products)]);
+    filters.includes('location') &&
+      setSpaceHashMap(generateBoolMappedObj(products, true));
+  }, [products, filters]);
 
-  const filteredProducts = products.filter((product: IProduct) => {
-    const [currentMin, currentMax] = currentValues;
+  const filterByConditions = (product: IProduct) => {
+    let isSatisfied = true;
+    if (filters.includes('price')) {
+      const [currentMin, currentMax] = currentValues;
+      if (product.price < currentMin || product.price > currentMax)
+        isSatisfied = false;
+    }
 
-    return (
-      product.price >= currentMin &&
-      product.price <= currentMax &&
-      spaceHashMap[product.spaceCategory]
-    );
-  });
+    if (filters.includes('location')) {
+      if (!spaceHashMap[product.spaceCategory]) isSatisfied = false;
+    }
+    return isSatisfied;
+  };
 
   return (
     <VStack as="section" bg="blue.100" w="75%" minW="500px" p={4}>
       <Heading>상품 정보</Heading>
       <VStack as="section" bg="blue.100" w="100%" p={4}>
-        <PriceFilter
-          products={products}
-          currentValues={currentValues}
-          setCurrentValues={setCurrentValues}
-        />
-        <LoacationFilter
-          spaceHashMap={spaceHashMap}
-          setSpaceHashMap={setSpaceHashMap}
-        />
+        {filters.includes('price') && (
+          <PriceFilter
+            products={products}
+            currentValues={currentValues}
+            setCurrentValues={setCurrentValues}
+          />
+        )}
+        {filters.includes('location') && (
+          <LoacationFilter
+            spaceHashMap={spaceHashMap}
+            setSpaceHashMap={setSpaceHashMap}
+          />
+        )}
       </VStack>
-      {filteredProducts.map((product: IProduct) => (
+      {products.filter(filterByConditions).map((product: IProduct) => (
         <Product key={product.idx} {...product} />
       ))}
     </VStack>
