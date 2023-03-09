@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { onClose } from '@/store/slices/modalSlice';
 import {
   Badge,
@@ -14,10 +14,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
 
 const ProductModal = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     modal: { isOpen, modalData },
   } = useAppSelector((state) => state);
@@ -27,7 +26,7 @@ const ProductModal = () => {
       <Modal isOpen={isOpen} onClose={() => dispatch(onClose())}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader fontSize='2xl'>{modalData.name}</ModalHeader>
+          <ModalHeader fontSize="2xl">{modalData.name}</ModalHeader>
           <ModalBody>
             <Center>
               <Image
@@ -53,7 +52,7 @@ const ProductModal = () => {
             <Badge>등록번호 : {modalData.idx}</Badge>
             <Button
               colorScheme="blue"
-              variant='outline'
+              variant="outline"
               mr={3}
               onClick={() => dispatch(onClose())}
             >

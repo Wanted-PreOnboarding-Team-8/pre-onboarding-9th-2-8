@@ -1,5 +1,5 @@
-import ProductModal from '@/components/Product/ProductModal';
 import ReservationsList from '@/components/Reservations/ReservationsList';
+import ReservationsModal from '@/components/Reservations/ReservationsModal';
 import { Center, Box } from '@chakra-ui/react';
 
 const Reservations = () => {
@@ -11,7 +11,7 @@ const Reservations = () => {
         </Box>
       </Center>
 
-      <ProductModal />
+      <ReservationsModal />
     </>
   );
 };
