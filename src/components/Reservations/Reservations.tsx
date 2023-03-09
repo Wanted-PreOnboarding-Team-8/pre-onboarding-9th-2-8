@@ -17,8 +17,24 @@ import {
   decreaseQuantity,
   removeFromCart,
 } from '@/store/slices/cartSlice';
+import { useEffect } from 'react';
+
+const saveToSessionStorage = (productData: IProduct) => {
+  sessionStorage.setItem('productData', JSON.stringify(productData));
+};
 
 const Reservations = (productData: IProduct) => {
+  useEffect(() => {
+    saveToSessionStorage(productData);
+  }, [productData]);
+
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('productData');
+    if (savedData) {
+      JSON.parse(savedData);
+    }
+  }, []);
+
   const dispatch = useAppDispatch();
 
   const handleIncreaseClick = () => {
