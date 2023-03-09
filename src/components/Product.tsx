@@ -16,6 +16,7 @@ import { IProduct } from '@/interface/product';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { onOpen } from '@/store/slices/modalSlice';
 import { addToCart } from '@/store/slices/cartSlice';
+import { ICartState } from '@/interface/cart';
 
 const Product = (productData: IProduct) => {
   const dispatch = useAppDispatch();
@@ -23,14 +24,15 @@ const Product = (productData: IProduct) => {
   const toast = useToast();
 
   const handleReservation = (product: IProduct) => {
-    const productLength =
-      cart.filter((item: IProduct) => item.idx === product.idx).length + 1;
+    const cartItemCount =
+      cart.find((item: ICartState) => item.product.idx === product.idx)
+        ?.count || 0;
 
-    if (productLength <= Number(product.maximumPurchases)) {
+    if (cartItemCount <= Number(product.maximumPurchases) - 1) {
       dispatch(addToCart(product));
       toast({
         title: `${product.name} 1개 추가`,
-        description: `장바구니에 ${productLength}개 있습니다`,
+        description: `장바구니에 ${cartItemCount + 1}개 있습니다`,
         position: 'top-right',
         status: 'success',
         isClosable: true,
