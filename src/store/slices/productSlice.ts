@@ -1,6 +1,7 @@
 import productApi from '@/api/product';
 import {
-  IFilterProducts,
+  IFilterCategoryProducts,
+  IFilterPriceProducts,
   IProduct,
   IProductReducer,
 } from '@/interface/product';
@@ -11,15 +12,26 @@ export const getProducts = createAsyncThunk<IProduct[]>(
   productApi.getProducts,
 );
 
-export const filterProducts = createAsyncThunk(
-  'product/filterProducts',
-  async ({ minPrice, maxPrice }: IFilterProducts) => {
+export const filterPriceProducts = createAsyncThunk(
+  'product/filterPriceProducts',
+  async ({ minPrice, maxPrice }: IFilterPriceProducts) => {
     const response = await productApi.getProducts();
-    const filterProduct = response.filter(
+    const filterPrice = response.filter(
       (product: IProduct) =>
         product.price > minPrice && product.price < maxPrice,
     );
-    return filterProduct;
+    return filterPrice;
+  },
+);
+
+export const filterCategoryProducts = createAsyncThunk(
+  'product/filterCategoryProducts',
+  async ({ spaceCategory }: IFilterCategoryProducts) => {
+    const response = await productApi.getProducts();
+    const filterCategory = response.filter((product: IProduct) =>
+      spaceCategory.find((space) => space === product.spaceCategory),
+    );
+    return filterCategory;
   },
 );
 
@@ -28,6 +40,7 @@ const initialState: IProductReducer = {
   error: null,
   products: [],
 };
+
 const productSlice = createSlice({
   name: 'products',
   initialState,
@@ -46,16 +59,31 @@ const productSlice = createSlice({
       state.isLoading = false;
       state.error = '상품 목록을 가져올 수 없습니다.';
     });
-    builder.addCase(filterProducts.pending, (state) => {
+
+    builder.addCase(filterPriceProducts.pending, (state) => {
       state.isLoading = true;
       state.error = null;
     });
-    builder.addCase(filterProducts.fulfilled, (state, action) => {
+    builder.addCase(filterPriceProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.products = action.payload;
     });
-    builder.addCase(filterProducts.rejected, (state) => {
+    builder.addCase(filterPriceProducts.rejected, (state) => {
+      state.isLoading = false;
+      state.error = '상품 목록을 가져올 수 없습니다.';
+    });
+
+    builder.addCase(filterCategoryProducts.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(filterCategoryProducts.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.error = null;
+      state.products = action.payload;
+    });
+    builder.addCase(filterCategoryProducts.rejected, (state) => {
       state.isLoading = false;
       state.error = '상품 목록을 가져올 수 없습니다.';
     });

@@ -9,14 +9,18 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { useAppDispatch } from '@/store';
-import { filterProducts } from '@/store/slices/productSlice';
+import { filterPriceProducts } from '@/store/slices/productSlice';
+
 const FilterPrice = () => {
   const dispatch = useAppDispatch();
   const [priceFilter, setPriceFilter] = useState([0, 30000]);
 
   useEffect(() => {
     dispatch(
-      filterProducts({ minPrice: priceFilter[0], maxPrice: priceFilter[1] }),
+      filterPriceProducts({
+        minPrice: priceFilter[0],
+        maxPrice: priceFilter[1],
+      }),
     );
   }, [dispatch, priceFilter]);
 
@@ -41,12 +45,7 @@ const FilterPrice = () => {
         <Input
           value={priceFilter[0]}
           onChange={(e) =>
-            setPriceFilter([
-              Number(e.target.value) > priceFilter[1]
-                ? priceFilter[1] - 1000
-                : Number(e.target.value),
-              priceFilter[1],
-            ])
+            setPriceFilter([Number(e.target.value), priceFilter[1]])
           }
           placeholder={String(priceFilter[0])}
           size="xs"

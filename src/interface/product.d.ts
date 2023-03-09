@@ -15,7 +15,11 @@ export interface IProductReducer {
   products: IProduct[];
 }
 
-export interface IFilterProducts {
+export interface IFilterPriceProducts {
   minPrice: number;
   maxPrice: number;
+}
+
+export interface IFilterCategoryProducts {
+  spaceCategory: string[];
 }
