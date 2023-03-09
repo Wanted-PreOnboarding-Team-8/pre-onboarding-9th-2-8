@@ -35,20 +35,20 @@ const ProductList = ({ filters }: IProductListProps) => {
   }, [dispatch]);
 
   useEffect(() => {
-    filters.includes('price') && setCurrentValues([0, getMaxPrice(products)]);
-    filters.includes('location') &&
+    filters?.includes('price') && setCurrentValues([0, getMaxPrice(products)]);
+    filters?.includes('location') &&
       setSpaceHashMap(generateBoolMappedObj(products, true));
   }, [products, filters]);
 
   const filterByConditions = (product: IProduct) => {
     let isSatisfied = true;
-    if (filters.includes('price')) {
+    if (filters?.includes('price')) {
       const [currentMin, currentMax] = currentValues;
       if (product.price < currentMin || product.price > currentMax)
         isSatisfied = false;
     }
 
-    if (filters.includes('location')) {
+    if (filters?.includes('location')) {
       if (!spaceHashMap[product.spaceCategory]) isSatisfied = false;
     }
     return isSatisfied;
@@ -58,14 +58,14 @@ const ProductList = ({ filters }: IProductListProps) => {
     <VStack as="section" bg="blue.100" w="75%" minW="500px" p={4}>
       <Heading>상품 정보</Heading>
       <VStack as="section" bg="blue.100" w="100%" p={4}>
-        {filters.includes('price') && (
+        {filters?.includes('price') && (
           <PriceFilter
             products={products}
             currentValues={currentValues}
             setCurrentValues={setCurrentValues}
           />
         )}
-        {filters.includes('location') && (
+        {filters?.includes('location') && (
           <LoacationFilter
             spaceHashMap={spaceHashMap}
             setSpaceHashMap={setSpaceHashMap}
