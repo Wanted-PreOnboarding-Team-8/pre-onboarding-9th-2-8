@@ -1,6 +1,6 @@
 import ReservationsList from '@/components/ReservationsList';
 import { IProduct } from '@/interface/product';
-import { useAppDispatch, useAppSelector } from '@/store';
+import { useAppSelector } from '@/store';
 import {
   Button,
   Card,
@@ -15,7 +15,6 @@ import {
 import { Link } from 'react-router-dom';
 
 const Reservations = () => {
-  const dispatch = useAppDispatch();
   const { cart } = useAppSelector((state) => state);
 
   console.log(cart);

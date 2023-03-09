@@ -23,24 +23,29 @@ const Product = (productData: IProduct) => {
   const toast = useToast();
 
   const handleReservation = (product: IProduct) => {
+    const findCartId = cart.map((item) => item.idx);
     const productLength =
       cart.filter((item: IProduct) => item.idx === product.idx).length + 1;
+    console.log(findCartId, product.idx, productLength);
 
-    if (productLength <= Number(product.maximumPurchases)) {
-      dispatch(addToCart(product));
+    if (
+      productLength > 1 &&
+      findCartId.findIndex((element) => element === product.idx)
+    ) {
       toast({
-        title: `${product.name} 1개 추가`,
-        description: `장바구니에 ${productLength}개 있습니다`,
+        title: `이미 담긴 상품입니다.`,
+        description: `동일 상품을 여러 번 담을 수 없습니다.`,
         position: 'top-right',
-        status: 'success',
+        status: 'error',
         isClosable: true,
       });
     } else {
+      dispatch(addToCart(product));
       toast({
-        title: `${product.name} 구매 개수 초과`,
-        description: `인 당 ${product.maximumPurchases}개만 구매하실 수 있습니다.`,
+        title: `${product.name} 1개 추가`,
+        description: `장바구니에 성공적으로 추가하였습니다.`,
         position: 'top-right',
-        status: 'error',
+        status: 'success',
         isClosable: true,
       });
     }

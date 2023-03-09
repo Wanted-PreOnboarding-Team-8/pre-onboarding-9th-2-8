@@ -11,8 +11,16 @@ import {
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { IProduct } from '@/interface/product';
+import { useAppDispatch } from '@/store';
+import { deleteCart } from '@/store/slices/cartSlice';
 
 const ReservationsList = (cartProduct: IProduct) => {
+  const dispatch = useAppDispatch();
+
+  const deleteCartHandler = (id: number) => {
+    dispatch(deleteCart(id));
+  };
+
   return (
     <>
       <Card
@@ -54,7 +62,11 @@ const ReservationsList = (cartProduct: IProduct) => {
           </Stack>
           <Stack p="5">
             <Text pt="2" fontSize="sm">
-              <IconButton aria-label="Search database" icon={<DeleteIcon />} />
+              <IconButton
+                aria-label="Search database"
+                icon={<DeleteIcon />}
+                onClick={() => deleteCartHandler(cartProduct.idx)}
+              />
             </Text>
           </Stack>
         </VStack>
