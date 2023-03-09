@@ -17,6 +17,12 @@ import CartItem from './CartItem';
 const CartList = () => {
   const { cart } = useAppSelector((state) => state);
 
+  const totalCount = cart.reduce((pre, cur) => pre + cur.count, 0);
+  const totalPrice = cart.reduce(
+    (pre, cur) => pre + cur.product.price * cur.count,
+    0,
+  );
+
   return (
     <VStack as="section" bg="blue.100" w="75%" minW="800px" p={4}>
       <Heading>장바구니</Heading>
@@ -54,17 +60,10 @@ const CartList = () => {
             </Tr>
             <Tr>
               <Th></Th>
-              <Th>-</Th>
+              <Th textAlign="center">-</Th>
               <Th textAlign="center">0 원</Th>
-              <Th textAlign="center">
-                {cart.reduce((pre, cur) => pre + cur.count, 0)} 개
-              </Th>
-              <Th textAlign="center">
-                {cart
-                  .reduce((pre, cur) => pre + cur.product.price, 0)
-                  .toLocaleString()}
-                원
-              </Th>
+              <Th textAlign="center">{totalCount.toLocaleString()} 개</Th>
+              <Th textAlign="center">{totalPrice.toLocaleString()}원</Th>
             </Tr>
           </Tfoot>
         </Table>
