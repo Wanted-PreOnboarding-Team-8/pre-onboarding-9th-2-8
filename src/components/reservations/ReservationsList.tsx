@@ -13,11 +13,11 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import { useAppDispatch } from '@/store';
-import { deleteCart } from '@/store/slices/cartSlice';
 import { IReservationsList } from '@/interface/props';
+import DeleteDiallog from './DeleteDiallog';
 
 const ReservationsList = ({
   cartProduct,
@@ -25,11 +25,7 @@ const ReservationsList = ({
   productNumber,
   setProductNumber,
 }: IReservationsList) => {
-  const dispatch = useAppDispatch();
-
-  const deleteCartHandler = (id: number) => {
-    dispatch(deleteCart(id));
-  };
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const inputOnchangeHandler = (value: string) => {
     const productNumber_copy = [...productNumber];
@@ -94,11 +90,13 @@ const ReservationsList = ({
             <IconButton
               aria-label="Search database"
               icon={<DeleteIcon />}
-              onClick={() => deleteCartHandler(cartProduct.idx)}
+              onClick={onOpen}
             />
           </Stack>
         </VStack>
       </Card>
+
+      <DeleteDiallog isOpen={isOpen} onClose={onClose} id={cartProduct.idx} />
     </>
   );
 };

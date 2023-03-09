@@ -13,3 +13,9 @@ export interface IReservationsList {
   productNumber: number[];
   setProductNumber: Dispatch<SetStateAction<number[]>>;
 }
+
+export interface IDeleteDiallog {
+  isOpen: boolean;
+  onClose: () => void;
+  id: number;
+}
