@@ -10,23 +10,27 @@ import {
   Text,
   CardFooter,
   Button,
-  Toast,
+  IconButton,
+  HStack,
+  useToast,
 } from '@chakra-ui/react';
 import React from 'react';
-import { IProduct } from '@/interface/product';
 import { useAppDispatch } from '@/store';
 import { onOpen } from '@/store/slices/modalSlice';
-import { deleteCartItem } from '@/store/slices/cartSlice';
+import { deleteCartItem, modifyCartItem } from '@/store/slices/cartSlice';
+import { AddIcon, MinusIcon } from '@chakra-ui/icons';
+import { CartType } from '@/interface/cart';
 
 type Props = {
-  product: IProduct;
+  product: CartType;
 };
 
 const CartItem = ({ product }: Props) => {
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
   const onDeleteCartItem = () => {
-    Toast({
+    toast({
       title: `장바구니 아이템 삭제`,
       description: `상품이 삭제되었습니다.`,
       position: 'top-right',
@@ -34,6 +38,27 @@ const CartItem = ({ product }: Props) => {
       isClosable: true,
     });
     dispatch(onOpen(product));
+  };
+
+  const onModifyCartItem = (n: number) => {
+    const quantity = product.quantity + n;
+    if (quantity < 0) {
+      return;
+    } else if (quantity > product.maximumPurchases) {
+      toast({
+        title: '최대 구매 수량을 담았습니다.',
+        position: 'top-right',
+        status: 'error',
+        isClosable: true,
+      });
+      return;
+    }
+    dispatch(
+      modifyCartItem({
+        idx: product.idx,
+        quantity,
+      }),
+    );
   };
   return (
     <Card direction={{ base: 'column', sm: 'row' }} w="100%" variant="outline">
@@ -73,6 +98,23 @@ const CartItem = ({ product }: Props) => {
           <Button variant="solid" colorScheme="blue" onClick={onDeleteCartItem}>
             더 보 기
           </Button>
+          <HStack alignSelf="flex-end">
+            <IconButton
+              variant="outline"
+              colorScheme="teal"
+              aria-label="Send email"
+              onClick={() => onModifyCartItem(-1)}
+              icon={<MinusIcon />}
+            />
+            <Text>{product.quantity}</Text>
+            <IconButton
+              variant="outline"
+              colorScheme="teal"
+              aria-label="Send email"
+              onClick={() => onModifyCartItem(1)}
+              icon={<AddIcon />}
+            />
+          </HStack>
         </CardFooter>
       </Stack>
     </Card>

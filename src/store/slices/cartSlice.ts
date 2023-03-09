@@ -13,17 +13,30 @@ const cartSlice = createSlice({
         (product) => product.idx === action.payload.idx,
       );
       if (isProductExists) {
-        const mappedCart = state.map((product) => {
+        const modifiedCart = state.map((product) => {
           if (product.idx === action.payload.idx) {
-            return { ...product, count: product.count + 1 };
+            return { ...product, quantity: product.quantity + 1 };
           } else {
             return product;
           }
         });
-        return mappedCart;
+        return modifiedCart;
       } else {
-        return [...state, { ...action.payload, count: 1 }];
+        return [...state, { ...action.payload, quantity: 1 }];
       }
+    },
+    modifyCartItem: (
+      state,
+      action: PayloadAction<{ idx: number; quantity: number }>,
+    ) => {
+      const modifiedCart = state.map((product) => {
+        if (product.idx === action.payload.idx) {
+          return { ...product, quantity: action.payload.quantity };
+        } else {
+          return product;
+        }
+      });
+      return modifiedCart;
     },
     deleteCartItem: (state, action: PayloadAction<number>) => {
       const filtered = state.filter(
@@ -34,6 +47,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, deleteCartItem } = cartSlice.actions;
+export const { addToCart, modifyCartItem, deleteCartItem } = cartSlice.actions;
 
 export default cartSlice.reducer;

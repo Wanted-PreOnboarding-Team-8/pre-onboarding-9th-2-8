@@ -28,7 +28,9 @@ const Product = (productData: IProduct) => {
       (item: CartType) => item.idx === product.idx,
     );
 
-    const productLength = filteredCart.length ? filteredCart[0].count + 1 : 1;
+    const productLength = filteredCart.length
+      ? filteredCart[0].quantity + 1
+      : 1;
 
     if (productLength <= Number(product.maximumPurchases)) {
       dispatch(addToCart(product));
