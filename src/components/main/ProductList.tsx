@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Heading, VStack, VisuallyHidden } from '@chakra-ui/react';
+import { Heading, VStack, VisuallyHidden, Text } from '@chakra-ui/react';
 import { getProducts } from '@/store/slices/productSlice';
 import { IProduct } from '@/interface/product';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
@@ -20,9 +20,13 @@ const ProductList = () => {
       <VisuallyHidden>
         <Heading>상품 정보</Heading>
       </VisuallyHidden>
-      {products.map((product: IProduct) => (
-        <Product key={product.idx} {...product} />
-      ))}
+      {products.length > 0 ? (
+        products.map((product: IProduct) => (
+          <Product key={product.idx} {...product} />
+        ))
+      ) : (
+        <Text>검색 결과가 없습니다</Text>
+      )}
     </VStack>
   );
 };
