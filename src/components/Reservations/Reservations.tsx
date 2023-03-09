@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import { IProduct } from '@/interface/product';
 import { useAppDispatch } from '@/store';
-import { onOpen } from '@/store/slices/modalSlice';
 import {
   increaseQuantity,
   decreaseQuantity,
@@ -77,6 +76,8 @@ const Reservations = (productData: IProduct) => {
               size="xs"
               colorScheme="gray"
               onClick={handleDecreaseClick}
+              isDisabled={productData.quantity === 1}
+              cursor={productData.quantity === 1 ? 'not-allowed' : 'cursor'}
             >
               -
             </Button>
@@ -87,6 +88,8 @@ const Reservations = (productData: IProduct) => {
               size="xs"
               colorScheme="gray"
               onClick={handleIncreaseClick}
+              isDisabled={productData.quantity === productData.maximumPurchases}
+              cursor={productData.quantity === productData.maximumPurchases ? 'not-allowed' : 'cursor'}
             >
               +
             </Button>
@@ -103,13 +106,6 @@ const Reservations = (productData: IProduct) => {
             <Badge>등록번호 : {productData.idx}</Badge>
           </Stack>
           <Stack direction="row" justify="flex-end">
-            <Button
-              variant="outline"
-              colorScheme="blue"
-              onClick={() => dispatch(onOpen(productData))}
-            >
-              더 보 기
-            </Button>
             <Button
               variant="outline"
               colorScheme="red"

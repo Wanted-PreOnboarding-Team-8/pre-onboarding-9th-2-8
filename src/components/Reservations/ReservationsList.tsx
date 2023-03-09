@@ -29,9 +29,13 @@ const ReservationsList = () => {
             <Text>장바구니에 상품이 없습니다.</Text>
           )}
         </VStack>
-        <Button onClick={() => dispatch(onOpen(carts))}>
-          총 {carts.length}개 | {cartTotal.toLocaleString()}원 결제하기
-        </Button>
+        {cartTotal === 0 ? (
+          <Button disabled cursor='not-allowed'>총 0개 | 0원 결제하기</Button>
+        ) : (
+          <Button onClick={() => dispatch(onOpen(carts))}>
+            총 {carts.length}개 | {cartTotal.toLocaleString()}원 결제하기
+          </Button>
+        )}
       </Stack>
     </>
   );
