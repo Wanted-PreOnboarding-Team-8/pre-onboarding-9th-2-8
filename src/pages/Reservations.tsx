@@ -1,8 +1,4 @@
-import ReservationsList from '@/components/reservations/ReservationsList';
-import { IProduct } from '@/interface/product';
-import { useAppSelector } from '@/store';
 import {
-  Button,
   Card,
   CardBody,
   CardFooter,
@@ -12,9 +8,15 @@ import {
   Stack,
   Text,
   StackDivider,
+  IconButton,
 } from '@chakra-ui/react';
+import { ChevronLeftIcon } from '@chakra-ui/icons';
+import { IProduct } from '@/interface/product';
+import { useAppSelector } from '@/store';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import EmptyReservations from '@/components/reservations/EmptyReservations';
+import ReservationsList from '@/components/reservations/ReservationsList';
 
 const Reservations = () => {
   const { cart } = useAppSelector((state) => state);
@@ -31,21 +33,28 @@ const Reservations = () => {
         <CardHeader display="flex" justifyContent="space-between">
           <Heading size="md">장바구니</Heading>
           <Link to="/main">
-            <Button>뒤로가기</Button>
+            <IconButton
+              aria-label="Search database"
+              icon={<ChevronLeftIcon />}
+            />
           </Link>
         </CardHeader>
 
         <CardBody>
           <Stack divider={<StackDivider />} spacing="4">
-            {cart.map((cartProduct: IProduct, index) => (
-              <ReservationsList
-                key={cartProduct.idx}
-                index={index}
-                cartProduct={cartProduct}
-                productNumber={productNumber}
-                setProductNumber={setProductNumber}
-              />
-            ))}
+            {cart.length ? (
+              cart.map((cartProduct: IProduct, index) => (
+                <ReservationsList
+                  key={cartProduct.idx}
+                  index={index}
+                  cartProduct={cartProduct}
+                  productNumber={productNumber}
+                  setProductNumber={setProductNumber}
+                />
+              ))
+            ) : (
+              <EmptyReservations />
+            )}
           </Stack>
         </CardBody>
         <CardFooter gap="5px">

@@ -91,13 +91,11 @@ const ReservationsList = ({
           </Stack>
 
           <Stack p="5">
-            <Text pt="2" fontSize="sm">
-              <IconButton
-                aria-label="Search database"
-                icon={<DeleteIcon />}
-                onClick={() => deleteCartHandler(cartProduct.idx)}
-              />
-            </Text>
+            <IconButton
+              aria-label="Search database"
+              icon={<DeleteIcon />}
+              onClick={() => deleteCartHandler(cartProduct.idx)}
+            />
           </Stack>
         </VStack>
       </Card>
