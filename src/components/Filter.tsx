@@ -1,12 +1,15 @@
-import { VStack, VisuallyHidden, Heading } from '@chakra-ui/react';
+import { VStack, VisuallyHidden, Heading, Box } from '@chakra-ui/react';
+import PriceFilter from './PriceFilter';
 
 const Filter = () => {
   return (
-    <VStack as="section" bg="blue.100" w="25%" p={4}>
+    <VStack as="section" bg="blue.300" w="1000px" h="100px">
       <VisuallyHidden>
         <Heading>필터 옵션</Heading>
       </VisuallyHidden>
+      <PriceFilter />
     </VStack>
   );
 };
+
 export default Filter;

@@ -9,18 +9,24 @@ const ProductList = () => {
   const dispatch = useAppDispatch();
   const {
     products: { products },
+    filter: {
+      byPrice: { minPrice, maxPrice },
+    },
   } = useAppSelector((state: RootState) => state);
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
+  const filtering = (product: IProduct) =>
+    Number(product.price) >= minPrice && Number(product.price) <= maxPrice;
+
   return (
     <VStack as="section" bg="blue.100" w="75%" minW="500px" p={4}>
       <VisuallyHidden>
         <Heading>상품 정보</Heading>
       </VisuallyHidden>
-      {products.map((product: IProduct) => (
+      {products.filter(filtering).map((product: IProduct) => (
         <Product key={product.idx} {...product} />
       ))}
     </VStack>
