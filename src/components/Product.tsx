@@ -22,22 +22,17 @@ const Product = (productData: IProduct) => {
   const toast = useToast();
 
   const handleReservation = (product: IProduct) => {
-    const productLength =
-      cart.filter((item: IProduct) => item.idx === product.idx).length + 1;
-
-    if (productLength <= Number(product.maximumPurchases)) {
-      dispatch(addToCart(product));
+    dispatch(addToCart(product));
+    if (!cart.isAdded) {
       toast({
         title: `${product.name} 1개 추가`,
-        description: `장바구니에 ${productLength}개 있습니다`,
         position: 'top-right',
         status: 'success',
         isClosable: true,
       });
     } else {
       toast({
-        title: `${product.name} 구매 개수 초과`,
-        description: `인 당 ${product.maximumPurchases}개만 구매하실 수 있습니다.`,
+        title: `${product.name}은 이미 장바구니에 담겨있습니다.`,
         position: 'top-right',
         status: 'error',
         isClosable: true,
