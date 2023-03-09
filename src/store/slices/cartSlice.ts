@@ -18,9 +18,17 @@ const cartSlice = createSlice({
         state.push({ count: 1, product: action.payload });
       }
     },
+    updateCount: (state, action: PayloadAction<ICartState>) => {
+      const isExist = state.find(
+        (item) => item.product.idx === action.payload.product.idx,
+      );
+      if (isExist) {
+        isExist.count = action.payload.count;
+      }
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, updateCount } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -1,9 +1,25 @@
 import { ICartState } from '@/interface/cart';
-import { Image, Td, Tr } from '@chakra-ui/react';
+import { useAppDispatch } from '@/store';
+import { updateCount } from '@/store/slices/cartSlice';
+import {
+  Image,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Td,
+  Tr,
+} from '@chakra-ui/react';
 
 const CartItem = (CartData: ICartState) => {
+  const dispatch = useAppDispatch();
   const product = CartData.product;
   const CartCount = CartData.count;
+
+  const onChangeCount = (count: string) => {
+    dispatch(updateCount({ ...CartData, count: Number(count) }));
+  };
 
   return (
     <Tr>
@@ -19,7 +35,18 @@ const CartItem = (CartData: ICartState) => {
       </Td>
       <Td>{product.name}</Td>
       <Td>
-        {CartCount} / {product.maximumPurchases}
+        <NumberInput
+          defaultValue={CartCount}
+          min={1}
+          max={product.maximumPurchases}
+          onChange={onChangeCount}
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
       </Td>
       <Td>{product.price.toLocaleString()} 원</Td>
     </Tr>
