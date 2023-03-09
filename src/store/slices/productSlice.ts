@@ -39,7 +39,7 @@ const productSlice = createSlice({
     });
     builder.addCase(getProducts.rejected, (state) => {
       state.isLoading = false;
-      state.error = '상품 목록을 가져올 수 없습니다.';
+      state.error = '상품 데이터를 서버에서 가져올 수 없습니다.';
     });
   },
 });
