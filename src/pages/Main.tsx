@@ -1,15 +1,16 @@
-import { HStack, Center } from '@chakra-ui/react';
-import ProductList from '@/components/ProductList';
-import ProductModal from '@/components/ProductModal';
+import { Box, Center } from '@chakra-ui/react';
+import ProductList from '@/components/Product/ProductList';
+import ProductModal from '@/components/Product/ProductModal';
 
 const Main = () => {
   return (
     <>
-      <Center as="main" bg="tomato" w="100%">
-        <HStack as="section" bg="tomato" w="50%">
+      <Center>
+        <Box maxWidth="container.sm" mx="auto" px={4}>
           <ProductList />
-        </HStack>
+        </Box>
       </Center>
+
       <ProductModal />
     </>
   );

@@ -10,18 +10,7 @@ export const getProducts = createAsyncThunk<IProduct[]>(
 const initialState: IProductReducer = {
   isLoading: true,
   error: null,
-  products: [
-    {
-      idx: 0,
-      name: '',
-      mainImage: '',
-      description: '',
-      spaceCategory: '',
-      price: 0,
-      maximumPurchases: 0,
-      registrationDate: '',
-    },
-  ],
+  products: [],
 };
 const productSlice = createSlice({
   name: 'products',
@@ -39,7 +28,7 @@ const productSlice = createSlice({
     });
     builder.addCase(getProducts.rejected, (state) => {
       state.isLoading = false;
-      state.error = '상품 목록을 가져올 수 없습니다.';
+      state.error = '상품 데이터를 서버에서 가져올 수 없습니다.';
     });
   },
 });
