@@ -18,12 +18,17 @@ import { addToCart } from '@/store/slices/cartSlice';
 
 const Product = (productData: IProduct) => {
   const dispatch = useAppDispatch();
-  const { cart } = useAppSelector((state) => state);
   const toast = useToast();
 
-  const handleReservation = (product: IProduct) => {
-    dispatch(addToCart(product));
-    if (!cart.isAdded) {
+  const { cart } = useAppSelector((state) => state);
+
+  const handleReservation = async (product: IProduct) => {
+    const existingProductIndex = cart.carts.findIndex(
+      (item) => item.idx === product.idx,
+    );
+
+    if (existingProductIndex < 0) {
+      dispatch(addToCart(product));
       toast({
         title: `${product.name} 1개 추가`,
         position: 'top-right',
@@ -65,14 +70,14 @@ const Product = (productData: IProduct) => {
         </CardBody>
         <CardFooter gap="5px" justify="flex-end">
           <Button
-            variant='outline'
+            variant="outline"
             colorScheme="green"
             onClick={() => handleReservation(productData)}
           >
             예 약
           </Button>
           <Button
-            variant='outline'
+            variant="outline"
             colorScheme="blue"
             onClick={() => dispatch(onOpen(productData))}
           >

@@ -7,37 +7,14 @@ import {
   Spinner,
   Stack,
   Text,
-  useToast,
   Badge,
 } from '@chakra-ui/react';
 import { IProduct } from '@/interface/product';
-import { useAppDispatch, useAppSelector } from '@/store';
+import { useAppDispatch } from '@/store';
 import { onOpen } from '@/store/slices/modalSlice';
-import { addToCart } from '@/store/slices/cartSlice';
 
 const Reservations = (productData: IProduct) => {
   const dispatch = useAppDispatch();
-  const { cart } = useAppSelector((state) => state);
-  const toast = useToast();
-
-  const handleReservation = (product: IProduct) => {
-    dispatch(addToCart(product));
-    if (!cart.isAdded) {
-      toast({
-        title: `${product.name} 1개 추가`,
-        position: 'top-right',
-        status: 'success',
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: `${product.name}은 이미 장바구니에 담겨있습니다.`,
-        position: 'top-right',
-        status: 'error',
-        isClosable: true,
-      });
-    }
-  };
 
   return (
     <Card direction={{ base: 'column', sm: 'row' }} w="100%" variant="outline">
@@ -84,7 +61,6 @@ const Reservations = (productData: IProduct) => {
             <Button
               variant="outline"
               colorScheme="red"
-              onClick={() => handleReservation(productData)}
             >
               삭 제
             </Button>

@@ -3,12 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface ICartState {
   carts: IProduct[];
-  isAdded: boolean
 }
 
 const initialState: ICartState = {
   carts: [],
-  isAdded: false,
 };
 
 const cartSlice = createSlice({
@@ -19,11 +17,9 @@ const cartSlice = createSlice({
       const existingProductIndex = state.carts.findIndex(
         (item) => item.idx === action.payload.idx,
       );
-      if (existingProductIndex >= 0) {
-        state.isAdded = false
-      } else {
-        state.carts.push(action.payload);
-        state.isAdded = true
+      if (existingProductIndex < 0) {
+        const productWithQuantity = { ...action.payload, quantity: 1 };
+        state.carts.push(productWithQuantity);
       }
     },
   },
