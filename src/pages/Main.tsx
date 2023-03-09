@@ -1,6 +1,6 @@
+import ProductList from '@/components/main/ProductList';
+import ProductModal from '@/components/main/ProductModal';
 import { HStack, Center } from '@chakra-ui/react';
-import ProductList from '@/components/ProductList';
-import ProductModal from '@/components/ProductModal';
 
 const Main = () => {
   return (
