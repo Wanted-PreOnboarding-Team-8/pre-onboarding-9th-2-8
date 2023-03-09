@@ -12,9 +12,23 @@ import {
 import { IProduct } from '@/interface/product';
 import { useAppDispatch } from '@/store';
 import { onOpen } from '@/store/slices/modalSlice';
+import { increaseQuantity, decreaseQuantity } from '@/store/slices/cartSlice';
 
 const Reservations = (productData: IProduct) => {
   const dispatch = useAppDispatch();
+
+  const handleIncreaseClick = () => {
+    dispatch(
+      increaseQuantity({
+        idx: productData.idx,
+        maxQuantity: productData.maximumPurchases,
+      }),
+    );
+  };
+
+  const handleDecreaseClick = () => {
+    dispatch(decreaseQuantity({ idx: productData.idx }));
+  };
 
   return (
     <Card direction={{ base: 'column', sm: 'row' }} w="100%" variant="outline">
@@ -31,11 +45,22 @@ const Reservations = (productData: IProduct) => {
 
           <Stack direction="row" align="center">
             <Text>구매 수량</Text>
-            <Button variant="outline" size="xs" colorScheme="gray">
+            <Button
+              variant="outline"
+              size="xs"
+              colorScheme="gray"
+              onClick={handleDecreaseClick}
+            >
               -
             </Button>
-            <Text>1</Text>
-            <Button ml="1" variant="outline" size="xs" colorScheme="gray">
+            <Text>{productData.quantity}</Text>
+            <Button
+              ml="1"
+              variant="outline"
+              size="xs"
+              colorScheme="gray"
+              onClick={handleIncreaseClick}
+            >
               +
             </Button>
             <Text color="blue.600" fontSize="2xl">
@@ -58,10 +83,7 @@ const Reservations = (productData: IProduct) => {
             >
               더 보 기
             </Button>
-            <Button
-              variant="outline"
-              colorScheme="red"
-            >
+            <Button variant="outline" colorScheme="red">
               삭 제
             </Button>
           </Stack>
