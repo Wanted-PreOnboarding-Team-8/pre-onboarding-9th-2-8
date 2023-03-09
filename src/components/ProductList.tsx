@@ -7,7 +7,6 @@ import {
   RangeSliderFilledTrack,
   RangeSliderThumb,
   Stack,
-  Text,
 } from '@chakra-ui/react';
 import { getProducts } from '@/store/slices/productSlice';
 import Product from '@/components/Product';
@@ -39,12 +38,6 @@ const ProductList = () => {
     setSpaceHashMap(generateBoolMappedObj(products, true));
   }, [products]);
 
-  const onSlidePrice = (event: number[]) => {
-    setCurrentValues(
-      event.map((value) => Math.floor((value / 100) * getMaxPrice(products))),
-    );
-  };
-
   const onToggleSpace = (key: string) => {
     setSpaceHashMap({
       ...spaceHashMap,
@@ -66,16 +59,11 @@ const ProductList = () => {
     <VStack as="section" bg="blue.100" w="75%" minW="500px" p={4}>
       <Heading>상품 정보</Heading>
       <VStack as="section" bg="blue.100" w="100%" p={4}>
-        <RangeSlider defaultValue={[0, 100]} onChange={onSlidePrice}>
-          <RangeSliderTrack>
-            <RangeSliderFilledTrack />
-          </RangeSliderTrack>
-          <RangeSliderThumb index={0} />
-          <RangeSliderThumb index={1} />
-        </RangeSlider>
-        <Text>
-          {currentValues[0]} {currentValues[1]}
-        </Text>
+        <PriceFilter
+          products={products}
+          currentValues={currentValues}
+          setCurrentValues={setCurrentValues}
+        />
         <Stack direction="row">
           {Object.keys(spaceHashMap).map((spaceKey) => (
             <SpaceTag
@@ -93,4 +81,29 @@ const ProductList = () => {
     </VStack>
   );
 };
+
+const PriceFilter = ({ products, currentValues, setCurrentValues }: any) => {
+  const onSlidePrice = (event: number[]) => {
+    setCurrentValues(
+      event.map((value) => Math.floor((value / 100) * getMaxPrice(products))),
+    );
+  };
+
+  return (
+    <>
+      <RangeSlider defaultValue={[0, 100]} onChange={onSlidePrice} mb="30px">
+        <RangeSliderTrack>
+          <RangeSliderFilledTrack />
+        </RangeSliderTrack>
+        <RangeSliderThumb index={0} mt="20px">
+          {currentValues[0]}
+        </RangeSliderThumb>
+        <RangeSliderThumb index={1} mt="20px">
+          {currentValues[1]}
+        </RangeSliderThumb>
+      </RangeSlider>
+    </>
+  );
+};
+
 export default ProductList;
