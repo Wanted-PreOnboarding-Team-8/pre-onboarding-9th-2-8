@@ -26,9 +26,12 @@ const cartSlice = createSlice({
         isExist.count = action.payload.count;
       }
     },
+    removeCart: (state, action: PayloadAction<number>) => {
+      return state.filter((item) => item.product.idx !== action.payload);
+    },
   },
 });
 
-export const { addToCart, updateCount } = cartSlice.actions;
+export const { addToCart, updateCount, removeCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

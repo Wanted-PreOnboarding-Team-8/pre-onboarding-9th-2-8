@@ -5,6 +5,7 @@ import {
   Table,
   TableContainer,
   Tbody,
+  Td,
   Tfoot,
   Th,
   Thead,
@@ -23,29 +24,42 @@ const CartList = () => {
         <Table variant="simple">
           <Thead>
             <Tr>
+              <Th></Th>
               <Th>상품 이미지</Th>
-              <Th>상품명</Th>
-              <Th>수량</Th>
-              <Th isNumeric>금액</Th>
+              <Th textAlign="center">상품명</Th>
+              <Th textAlign="center">수량</Th>
+              <Th textAlign="center">금액</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {cart.map((cartItem: ICartState) => (
-              <CartItem key={cartItem.product.idx} {...cartItem} />
-            ))}
+            {cart.length !== 0 ? (
+              cart.map((cartItem: ICartState) => (
+                <CartItem key={cartItem.product.idx} {...cartItem} />
+              ))
+            ) : (
+              <Tr>
+                <Td textAlign="center" colSpan={5}>
+                  장바구니에 상품이 없습니다. 😭
+                </Td>
+              </Tr>
+            )}
           </Tbody>
           <Tfoot>
             <Tr>
+              <Th></Th>
               <Th>상품 이미지</Th>
-              <Th>할인 금액</Th>
-              <Th>총 수량</Th>
-              <Th isNumeric>총 금액</Th>
+              <Th textAlign="center">할인 금액</Th>
+              <Th textAlign="center">총 수량</Th>
+              <Th textAlign="center">총 금액</Th>
             </Tr>
             <Tr>
-              <Th> </Th>
-              <Th>0 원</Th>
-              <Th>{cart.reduce((pre, cur) => pre + cur.count, 0)}</Th>
-              <Th isNumeric>
+              <Th></Th>
+              <Th>-</Th>
+              <Th textAlign="center">0 원</Th>
+              <Th textAlign="center">
+                {cart.reduce((pre, cur) => pre + cur.count, 0)} 개
+              </Th>
+              <Th textAlign="center">
                 {cart
                   .reduce((pre, cur) => pre + cur.product.price, 0)
                   .toLocaleString()}

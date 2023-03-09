@@ -1,7 +1,8 @@
 import { ICartState } from '@/interface/cart';
 import { useAppDispatch } from '@/store';
-import { updateCount } from '@/store/slices/cartSlice';
+import { removeCart, updateCount } from '@/store/slices/cartSlice';
 import {
+  CloseButton,
   Image,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -21,8 +22,15 @@ const CartItem = (CartData: ICartState) => {
     dispatch(updateCount({ ...CartData, count: Number(count) }));
   };
 
+  const onDelete = (e: React.MouseEvent<HTMLElement>) => {
+    dispatch(removeCart(CartData.product.idx));
+  };
+
   return (
     <Tr>
+      <Td>
+        <CloseButton onClick={onDelete} />
+      </Td>
       <Td>
         <Image
           objectFit="cover"
