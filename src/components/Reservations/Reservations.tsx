@@ -12,7 +12,11 @@ import {
 import { IProduct } from '@/interface/product';
 import { useAppDispatch } from '@/store';
 import { onOpen } from '@/store/slices/modalSlice';
-import { increaseQuantity, decreaseQuantity } from '@/store/slices/cartSlice';
+import {
+  increaseQuantity,
+  decreaseQuantity,
+  removeFromCart,
+} from '@/store/slices/cartSlice';
 
 const Reservations = (productData: IProduct) => {
   const dispatch = useAppDispatch();
@@ -28,6 +32,10 @@ const Reservations = (productData: IProduct) => {
 
   const handleDecreaseClick = () => {
     dispatch(decreaseQuantity({ idx: productData.idx }));
+  };
+
+  const handleRemoveClick = () => {
+    dispatch(removeFromCart({ idx: productData.idx }));
   };
 
   return (
@@ -83,7 +91,11 @@ const Reservations = (productData: IProduct) => {
             >
               더 보 기
             </Button>
-            <Button variant="outline" colorScheme="red">
+            <Button
+              variant="outline"
+              colorScheme="red"
+              onClick={handleRemoveClick}
+            >
               삭 제
             </Button>
           </Stack>

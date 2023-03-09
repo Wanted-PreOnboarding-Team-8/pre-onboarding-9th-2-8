@@ -44,9 +44,17 @@ const cartSlice = createSlice({
         }
       }
     },
+    removeFromCart: (state, action) => {
+      const { idx } = action.payload;
+      const productIndex = state.carts.findIndex((item) => item.idx === idx);
+      if (productIndex >= 0) {
+        state.carts.splice(productIndex, 1);
+      }
+    },
   },
 });
 
-export const { addToCart, increaseQuantity, decreaseQuantity } = cartSlice.actions;
+export const { addToCart, increaseQuantity, decreaseQuantity, removeFromCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
