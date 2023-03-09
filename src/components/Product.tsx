@@ -26,7 +26,6 @@ const Product = (productData: IProduct) => {
     const findCartId = cart.map((item) => item.idx);
     const productLength =
       cart.filter((item: IProduct) => item.idx === product.idx).length + 1;
-    console.log(findCartId, product.idx, productLength);
 
     if (
       productLength > 1 &&

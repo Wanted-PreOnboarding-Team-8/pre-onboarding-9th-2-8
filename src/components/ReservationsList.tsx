@@ -8,17 +8,33 @@ import {
   Card,
   VStack,
   IconButton,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import { IProduct } from '@/interface/product';
 import { useAppDispatch } from '@/store';
 import { deleteCart } from '@/store/slices/cartSlice';
+import { IReservationsList } from '@/interface/props';
 
-const ReservationsList = (cartProduct: IProduct) => {
+const ReservationsList = ({
+  cartProduct,
+  index,
+  productNumber,
+  setProductNumber,
+}: IReservationsList) => {
   const dispatch = useAppDispatch();
 
   const deleteCartHandler = (id: number) => {
     dispatch(deleteCart(id));
+  };
+
+  const inputOnchangeHandler = (value: string) => {
+    const productNumber_copy = [...productNumber];
+    productNumber_copy.splice(index, 1, Number(value));
+    setProductNumber([...productNumber_copy]);
   };
 
   return (
@@ -56,10 +72,24 @@ const ReservationsList = (cartProduct: IProduct) => {
             </Text>
           </Stack>
           <Stack p="5">
+            <NumberInput
+              value={productNumber[index]}
+              onChange={(value) => inputOnchangeHandler(value)}
+              defaultValue={1}
+              min={1}
+              max={cartProduct.maximumPurchases}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
             <Heading size="xs" textTransform="uppercase">
-              {cartProduct.price}
+              {cartProduct.price * productNumber[index]}원
             </Heading>
           </Stack>
+
           <Stack p="5">
             <Text pt="2" fontSize="sm">
               <IconButton
