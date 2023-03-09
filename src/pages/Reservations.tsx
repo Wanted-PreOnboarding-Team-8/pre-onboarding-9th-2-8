@@ -1,4 +1,4 @@
-import ReservationsList from '@/components/ReservationsList';
+import ReservationsList from '@/components/reservations/ReservationsList';
 import { IProduct } from '@/interface/product';
 import { useAppSelector } from '@/store';
 import {
