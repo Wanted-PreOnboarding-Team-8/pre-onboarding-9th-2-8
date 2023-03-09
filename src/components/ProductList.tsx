@@ -38,13 +38,6 @@ const ProductList = () => {
     setSpaceHashMap(generateBoolMappedObj(products, true));
   }, [products]);
 
-  const onToggleSpace = (key: string) => {
-    setSpaceHashMap({
-      ...spaceHashMap,
-      [key]: !spaceHashMap[key],
-    });
-  };
-
   const filteredProducts = products.filter((product: IProduct) => {
     const [currentMin, currentMax] = currentValues;
 
@@ -64,16 +57,10 @@ const ProductList = () => {
           currentValues={currentValues}
           setCurrentValues={setCurrentValues}
         />
-        <Stack direction="row">
-          {Object.keys(spaceHashMap).map((spaceKey) => (
-            <SpaceTag
-              key={spaceKey}
-              spaceKey={spaceKey}
-              spaceHashMap={spaceHashMap}
-              onToggleSpace={onToggleSpace}
-            />
-          ))}
-        </Stack>
+        <LoacationFilter
+          spaceHashMap={spaceHashMap}
+          setSpaceHashMap={setSpaceHashMap}
+        />
       </VStack>
       {filteredProducts.map((product: IProduct) => (
         <Product key={product.idx} {...product} />
@@ -81,6 +68,8 @@ const ProductList = () => {
     </VStack>
   );
 };
+
+export default ProductList;
 
 const PriceFilter = ({ products, currentValues, setCurrentValues }: any) => {
   const onSlidePrice = (event: number[]) => {
@@ -90,20 +79,38 @@ const PriceFilter = ({ products, currentValues, setCurrentValues }: any) => {
   };
 
   return (
-    <>
-      <RangeSlider defaultValue={[0, 100]} onChange={onSlidePrice} mb="30px">
-        <RangeSliderTrack>
-          <RangeSliderFilledTrack />
-        </RangeSliderTrack>
-        <RangeSliderThumb index={0} mt="20px">
-          {currentValues[0]}
-        </RangeSliderThumb>
-        <RangeSliderThumb index={1} mt="20px">
-          {currentValues[1]}
-        </RangeSliderThumb>
-      </RangeSlider>
-    </>
+    <RangeSlider defaultValue={[0, 100]} onChange={onSlidePrice} mb="30px">
+      <RangeSliderTrack>
+        <RangeSliderFilledTrack />
+      </RangeSliderTrack>
+      <RangeSliderThumb index={0} mt="20px">
+        {currentValues[0]}
+      </RangeSliderThumb>
+      <RangeSliderThumb index={1} mt="20px">
+        {currentValues[1]}
+      </RangeSliderThumb>
+    </RangeSlider>
   );
 };
 
-export default ProductList;
+const LoacationFilter = ({ spaceHashMap, setSpaceHashMap }: any) => {
+  const onToggleSpace = (key: string) => {
+    setSpaceHashMap({
+      ...spaceHashMap,
+      [key]: !spaceHashMap[key],
+    });
+  };
+
+  return (
+    <Stack direction="row">
+      {Object.keys(spaceHashMap).map((spaceKey) => (
+        <SpaceTag
+          key={spaceKey}
+          spaceKey={spaceKey}
+          spaceHashMap={spaceHashMap}
+          onToggleSpace={onToggleSpace}
+        />
+      ))}
+    </Stack>
+  );
+};
