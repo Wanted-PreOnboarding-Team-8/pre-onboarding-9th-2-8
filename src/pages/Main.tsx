@@ -1,6 +1,6 @@
 import { Box, Center } from '@chakra-ui/react';
-import ProductList from '@/components/ProductList';
-import ProductModal from '@/components/ProductModal';
+import ProductList from '@/components/Product/ProductList';
+import ProductModal from '@/components/Product/ProductModal';
 
 const Main = () => {
   return (
