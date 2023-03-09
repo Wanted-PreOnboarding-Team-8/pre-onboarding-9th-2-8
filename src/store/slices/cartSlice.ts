@@ -11,9 +11,8 @@ const cartSlice = createSlice({
       return [...state, action.payload];
     },
     deleteCart: (state, action) => {
-      const id: number = action.payload;
-      state = state.filter((element) => element.idx !== id);
-      return state;
+      const selectedCart = action.payload;
+      return state.filter((element) => !selectedCart.includes(element.idx));
     },
   },
 });

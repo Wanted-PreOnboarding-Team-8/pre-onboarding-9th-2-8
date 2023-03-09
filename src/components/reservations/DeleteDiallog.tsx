@@ -8,25 +8,27 @@ import {
   Button,
 } from '@chakra-ui/react';
 import React, { useRef } from 'react';
-import { useAppDispatch } from '@/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { deleteCart } from '@/store/slices/cartSlice';
-import { IDeleteDiallog } from '@/interface/props';
+import { onClose } from '@/store/slices/dialogSlice';
 
-const DeleteDiallog = ({ isOpen, onClose, id }: IDeleteDiallog) => {
+const DeleteDiallog = () => {
   const dispatch = useAppDispatch();
-
+  const {
+    dialog: { isOpen, selectedCart },
+  } = useAppSelector((state) => state);
   const cancelRef = useRef(null);
 
   const deleteCartHandler = () => {
-    dispatch(deleteCart(id));
-    onClose();
+    dispatch(deleteCart(selectedCart));
+    dispatch(onClose());
   };
 
   return (
     <AlertDialog
       isOpen={isOpen}
       leastDestructiveRef={cancelRef}
-      onClose={onClose}
+      onClose={() => dispatch(onClose())}
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
@@ -37,7 +39,7 @@ const DeleteDiallog = ({ isOpen, onClose, id }: IDeleteDiallog) => {
           <AlertDialogBody>선택하신 상품을 삭제하시겠습니까?</AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
+            <Button ref={cancelRef} onClick={() => dispatch(onClose())}>
               취소
             </Button>
             <Button colorScheme="red" onClick={deleteCartHandler} ml={3}>

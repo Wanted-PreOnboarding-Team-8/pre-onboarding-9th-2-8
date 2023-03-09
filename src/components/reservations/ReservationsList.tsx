@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Heading,
   Text,
@@ -13,24 +12,38 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  useDisclosure,
+  Checkbox,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
+import React, { ChangeEvent } from 'react';
 import { IReservationsList } from '@/interface/props';
-import DeleteDiallog from './DeleteDiallog';
+import { useAppDispatch } from '@/store';
+import { onOpen } from '@/store/slices/dialogSlice';
 
 const ReservationsList = ({
   cartProduct,
   index,
   productNumber,
   setProductNumber,
+  checkedItems,
+  setCheckedItems,
+  cartIndex,
+  setCartIndex,
 }: IReservationsList) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useAppDispatch();
 
   const inputOnchangeHandler = (value: string) => {
     const productNumber_copy = [...productNumber];
     productNumber_copy.splice(index, 1, Number(value));
     setProductNumber([...productNumber_copy]);
+  };
+
+  const checkedHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const checkedItems_copy = [...checkedItems];
+    const cartIndex_copy = [...cartIndex];
+    checkedItems_copy.splice(index, 1, e.target.checked);
+    setCheckedItems([...checkedItems_copy]);
+    setCartIndex([...cartIndex_copy, cartProduct.idx]);
   };
 
   return (
@@ -40,6 +53,17 @@ const ReservationsList = ({
         w="100%"
         variant="outline"
       >
+        <VStack
+          p={5}
+          display="flex"
+          justifyContent="space-between"
+          flexDirection="row"
+        >
+          <Checkbox
+            isChecked={checkedItems[index]}
+            onChange={(e) => checkedHandler(e)}
+          />
+        </VStack>
         <Image
           objectFit="cover"
           maxW={{ base: '100%', sm: '100px' }}
@@ -90,13 +114,11 @@ const ReservationsList = ({
             <IconButton
               aria-label="Search database"
               icon={<DeleteIcon />}
-              onClick={onOpen}
+              onClick={() => dispatch(onOpen([cartProduct.idx]))}
             />
           </Stack>
         </VStack>
       </Card>
-
-      <DeleteDiallog isOpen={isOpen} onClose={onClose} id={cartProduct.idx} />
     </>
   );
 };

@@ -12,10 +12,8 @@ export interface IReservationsList {
   index: number;
   productNumber: number[];
   setProductNumber: Dispatch<SetStateAction<number[]>>;
-}
-
-export interface IDeleteDiallog {
-  isOpen: boolean;
-  onClose: () => void;
-  id: number;
+  checkedItems: boolean[];
+  setCheckedItems: Dispatch<SetStateAction<boolean[]>>;
+  cartIndex: number[];
+  setCartIndex: Dispatch<SetStateAction<number[]>>;
 }
