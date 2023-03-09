@@ -11,6 +11,7 @@ import {
 import { getProducts } from '@/store/slices/productSlice';
 import Product from '@/components/Product';
 import { IProduct } from '@/interface/product';
+import { IProductListProps } from '@/interface/props';
 import { RootState, useAppDispatch, useAppSelector } from '@/store';
 import {
   generateBoolMappedObj,
@@ -18,7 +19,7 @@ import {
 } from '@/lib/utils/productsHelpers';
 import SpaceTag from './SpaceTag';
 
-const ProductList = () => {
+const ProductList = (props: IProductListProps) => {
   const dispatch = useAppDispatch();
   const {
     products: { products },
