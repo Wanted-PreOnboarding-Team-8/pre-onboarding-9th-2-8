@@ -18,6 +18,7 @@ import {
   removeFromCart,
 } from '@/store/slices/cartSlice';
 import { useEffect } from 'react';
+import { calculateTotal } from '@/lib/utils/productsHelpers';
 
 const saveToSessionStorage = (productData: IProduct) => {
   sessionStorage.setItem('productData', JSON.stringify(productData));
@@ -54,7 +55,7 @@ const Reservations = (productData: IProduct) => {
     dispatch(removeFromCart({ idx: productData.idx }));
   };
 
-  const total = productData.price * productData.quantity;
+  const productTotal = calculateTotal([productData]);
 
   return (
     <Card direction={{ base: 'column', sm: 'row' }} w="100%" variant="outline">
@@ -90,7 +91,7 @@ const Reservations = (productData: IProduct) => {
               +
             </Button>
             <Text color="blue.600" fontSize="2xl">
-              {total.toLocaleString()}원
+              {productTotal.toLocaleString()}원
             </Text>
           </Stack>
           <Badge colorScheme="red">

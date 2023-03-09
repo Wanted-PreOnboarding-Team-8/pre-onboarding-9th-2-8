@@ -11,3 +11,7 @@ export const generateBoolMappedObj = (products: IProduct[], bool: boolean) =>
 
 export const getMaxPrice = (products: IProduct[]) =>
   Math.max(...products.map((product) => product.price));
+
+export const calculateTotal = (items: ICartItem[]) => {
+  return items.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
+};
