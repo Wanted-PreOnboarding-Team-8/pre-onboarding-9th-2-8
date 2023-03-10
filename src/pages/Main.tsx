@@ -7,7 +7,7 @@ const Main = () => {
     <>
       <Center as="main" bg="tomato" w="100%">
         <HStack as="section" bg="tomato" w="50%">
-          <ProductList filters={['price', 'location']} />
+          <ProductList pageName="main" filters={['price', 'location']} />
         </HStack>
       </Center>
       <ProductModal />

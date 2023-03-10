@@ -19,11 +19,18 @@ import {
 } from '@/lib/utils/productsHelpers';
 import SpaceTag from './SpaceTag';
 
-const ProductList = ({ filters }: IProductListProps) => {
+const ProductList = ({ filters, pageName }: IProductListProps) => {
   const dispatch = useAppDispatch();
-  const {
-    products: { products },
-  } = useAppSelector((state: RootState) => state);
+  const products = useAppSelector((state: RootState) => {
+    switch (pageName) {
+      case 'main':
+        return state.products.products;
+      case 'reservations':
+        return state.cart.products;
+      default:
+        return [];
+    }
+  });
 
   const [currentValues, setCurrentValues] = useState<number[]>([]);
   const [spaceHashMap, setSpaceHashMap] = useState<{ [key: string]: boolean }>(

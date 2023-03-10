@@ -19,7 +19,7 @@ import { addToCart } from '@/store/slices/cartSlice';
 
 const Product = (productData: IProduct) => {
   const dispatch = useAppDispatch();
-  const { cart } = useAppSelector((state) => state);
+  const cart = useAppSelector((state) => state.cart.products);
   const toast = useToast();
 
   const handleReservation = (product: IProduct) => {

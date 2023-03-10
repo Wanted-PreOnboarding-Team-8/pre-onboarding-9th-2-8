@@ -7,5 +7,6 @@ export interface ISpaceTagProps {
 type productFilterType = 'price' | 'location';
 
 export interface IProductListProps {
+  pageName: string;
   filters?: productFilterType[];
 }

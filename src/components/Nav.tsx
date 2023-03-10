@@ -1,18 +1,15 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 const Nav = () => {
   return (
     <Breadcrumb position={'absolute'} m="20px">
       <BreadcrumbItem>
-        <BreadcrumbLink href="/main" fontSize={'5xl'}>
-          Main
-        </BreadcrumbLink>
+        <Link to="/main">main </Link>
       </BreadcrumbItem>
 
       <BreadcrumbItem ml="20px">
-        <BreadcrumbLink href="/reservations" fontSize={'5xl'}>
-          Reserv
-        </BreadcrumbLink>
+        <Link to="/reservations">reservations</Link>
       </BreadcrumbItem>
     </Breadcrumb>
   );
