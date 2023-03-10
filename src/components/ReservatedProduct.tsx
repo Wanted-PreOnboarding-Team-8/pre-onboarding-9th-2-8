@@ -6,13 +6,14 @@ import {
   Heading,
   Stack,
   Text,
+  Box,
   Badge,
 } from '@chakra-ui/react';
 import { IProduct } from '@/interface/product';
 import { useAppDispatch } from '@/store';
 import { removeOneFromCart, removeAllFromCart } from '@/store/slices/cartSlice';
 
-const ReservatedProduct = (productData: IProduct) => {
+const ReservatedProduct = (productData: any) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -25,6 +26,7 @@ const ReservatedProduct = (productData: IProduct) => {
               {productData.price.toLocaleString()} 원
             </Badge>
             <Badge colorScheme="purple">{productData.spaceCategory}</Badge>
+            <Box>예약 수량: {productData.reservationCount}</Box>
           </Stack>
         </CardBody>
         <CardFooter gap="5px">
