@@ -18,6 +18,7 @@ import {
   getMaxPrice,
 } from '@/lib/utils/productsHelpers';
 import SpaceTag from './SpaceTag';
+import ReservatedProduct from './ReservatedProduct';
 
 const ProductList = ({ filters, pageName }: IProductListProps) => {
   const dispatch = useAppDispatch();
@@ -79,9 +80,15 @@ const ProductList = ({ filters, pageName }: IProductListProps) => {
           />
         )}
       </VStack>
-      {products.filter(filterByConditions).map((product: IProduct) => (
-        <Product key={product.idx} {...product} />
-      ))}
+      {products
+        .filter(filterByConditions)
+        .map((product: IProduct) =>
+          pageName === 'main' ? (
+            <Product key={product.idx} {...product} />
+          ) : pageName === 'reservations' ? (
+            <ReservatedProduct key={product.idx} {...product} />
+          ) : null,
+        )}
     </VStack>
   );
 };
