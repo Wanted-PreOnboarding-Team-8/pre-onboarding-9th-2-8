@@ -16,14 +16,18 @@ const cartSlice = createSlice({
       const newArr = [...state.basket];
       const found = state.basket.find((e) => e.idx === action.payload.idx);
 
-      if (!found) newArr.push({ ...action.payload, reservationCount: 1 });
-      else
-        newArr.push({
+      if (!found) {
+        newArr.push({ ...action.payload, reservationCount: 1 });
+        state.basket = newArr;
+      } else {
+        const sumArr = newArr.filter((e) => e.idx !== action.payload.idx);
+
+        sumArr.push({
           ...action.payload,
           reservationCount: found.reservationCount + 1,
         });
-
-      state.basket = newArr;
+        state.basket = sumArr;
+      }
     },
     removeOneFromCart: (state, action) => {
       console.log('rm one action executed');
