@@ -15,6 +15,6 @@ export interface IProductReducer {
   products: IProduct[];
 }
 
-export interface ICartReducer {
-  products: IProduct[];
+export interface ICartReducer extends IProduct {
+  reservationCount: number;
 }

@@ -1,8 +1,11 @@
-import { IProduct, ICartReducer } from '@/interface/product';
+import { ICartReducer } from '@/interface/product';
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: ICartReducer = {
-  products: [],
+type initType = {
+  basket: ICartReducer[];
+};
+const initialState: initType = {
+  basket: [],
 };
 
 const cartSlice = createSlice({
@@ -10,16 +13,24 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      state.products = [...state.products, action.payload];
+      const newArr = [...state.basket];
+      const found = state.basket.find((e) => e.idx === action.payload.idx);
+
+      if (!found) newArr.push({ ...action.payload, reservationCount: 1 });
+      else
+        newArr.push({
+          ...action.payload,
+          reservationCount: found.reservationCount + 1,
+        });
+
+      state.basket = newArr;
     },
     removeOneFromCart: (state, action) => {
       console.log('rm one action executed');
     },
     removeAllFromCart: (state, action) => {
       console.log('rm all action executed');
-      state.products = state.products.filter(
-        (each) => each.idx !== action.payload,
-      );
+      state.basket = state.basket.filter((each) => each.idx !== action.payload);
     },
   },
 });

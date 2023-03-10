@@ -27,7 +27,7 @@ const ProductList = ({ filters, pageName }: IProductListProps) => {
       case 'main':
         return state.products.products;
       case 'reservations':
-        return state.cart.products;
+        return state.cart.basket;
       default:
         return [];
     }
@@ -41,6 +41,10 @@ const ProductList = ({ filters, pageName }: IProductListProps) => {
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log('wtf: ', products);
+  }, [products]);
 
   useEffect(() => {
     filters?.includes('price') && setCurrentValues([0, getMaxPrice(products)]);
