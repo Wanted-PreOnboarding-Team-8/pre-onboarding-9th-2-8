@@ -7,6 +7,7 @@ import {
   RangeSliderFilledTrack,
   RangeSliderThumb,
   Stack,
+  Text,
 } from '@chakra-ui/react';
 import { getProducts } from '@/store/slices/productSlice';
 import Product from '@/components/Product';
@@ -41,10 +42,6 @@ const ProductList = ({ filters, pageName }: IProductListProps) => {
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
-
-  useEffect(() => {
-    console.log('wtf: ', products);
-  }, [products]);
 
   useEffect(() => {
     filters?.includes('price') && setCurrentValues([0, getMaxPrice(products)]);
@@ -84,6 +81,15 @@ const ProductList = ({ filters, pageName }: IProductListProps) => {
           />
         )}
       </VStack>
+      {pageName === 'reservations' && (
+        <Text>
+          총 결제액 :{' '}
+          {products.reduce((prev: any, curr: any) => {
+            prev += curr.price * curr!.reservationCount;
+            return prev;
+          }, 0)}
+        </Text>
+      )}
       {products
         .filter(filterByConditions)
         .map((product: IProduct) =>
